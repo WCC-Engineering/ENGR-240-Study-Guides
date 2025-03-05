@@ -2,7 +2,7 @@
 
 ## Overview
 
-This study guide covers the essential Python concepts needed for Week 1 of ENGR 240. By mastering these concepts, you'll be prepared to complete the activities, worksheets, and programming assignments for the week.
+This study guide covers the essential Python concepts needed for Week 1 of ENGR 240. The activities, worksheets, and programming assignments for week 1 are designed to provide practice with these concepts and techniques.
 
 ## 1. Variables, Data Types, and Math Expressions
 
