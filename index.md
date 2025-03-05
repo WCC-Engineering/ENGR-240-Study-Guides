@@ -1,6 +1,6 @@
 # ENGR 240: Engineering Computations
 
-## Study Guides for Applied Numerical Methods
+## Study Guides for Engineering Computations in Python
 
 Welcome to the ENGR 240 Study Guides! These resources are designed to help you learn the key concepts and programming techniques covered in each week of the course.
 
