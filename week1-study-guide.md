@@ -207,10 +207,12 @@ plt.xlabel('t (seconds)')
 plt.ylabel('y')
 plt.grid(True)
 
+{% raw %}
 # Add a text box with the equation for reference
 equation = f'$y = {A}e^{{-{k}t}}\\cos({omega:.2f}t {phi:+.2f})$'
 plt.text(0.6*t_end, 0.8*A, equation, fontsize=12, 
          bbox=dict(facecolor='white', alpha=0.5))
+{% endraw %}
 
 plt.show()
 ```
