@@ -288,7 +288,14 @@ print(f"Flow regime: {flow_type}")
   - [If Statements](https://docs.python.org/3/tutorial/controlflow.html#if-statements)
  
 - **Berkeley Python Numerical Methods**:
-  - [Conditional Statements](https://pythonnumericalmethods.berkeley.edu/notebooks/chapter03.02-Conditional-Statements.html)
+  - [Branching Statements](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter04.00-Branching-Statements.html)
+ 
+- **Sullivan Numerical Methods YouTube Playlist**:
+  - [Conditional Statements](https://youtu.be/RFagfVzbp1c?si=aEmr6PG3c4zUqz-S)
+ 
+- **Python for Everybody Videos**
+  - [Conditionals part 1](https://youtu.be/2aA3VBdcl6A?si=AeUxtnmbWTq1mCGc)
+  - [Conditionals part 2](https://youtu.be/OczkNrHPBps?si=4JzsnHgK7Y64SB8q)
 
 ## 4. Combining Functions, Loops, and Conditionals
 
