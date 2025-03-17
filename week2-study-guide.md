@@ -76,7 +76,15 @@ print(sorted_numbers)  # Sort based on square of each number
   - [Lambda Expressions](https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions)
  
 - **Berkeley Python Numerical Methods**:
-  - [Basic Functions](https://pythonnumericalmethods.berkeley.edu/notebooks/chapter03.01-Functions-in-Python.html)
+  - [Functions](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter03.00-Functions.html)
+ 
+- **Sullivan Numerical Methods YouTube Playlist**:
+  - [Functions and Lambda Functions](https://youtu.be/ItNJaUiieog?si=UBOAjk4AsrtLEc6U)
+  - [More Complicated Python Functions](https://youtu.be/SnceGI35xaw?si=3htda-le280sWAvC)
+ 
+- **Python for Everybody Videos**
+  - [Functions part 1](https://youtu.be/5Kzw-0-DQAk?si=c___UF6gJPB4yFQ2)
+  - [Functions part 2](https://youtu.be/AJVNYRqn8kM?si=5wHG5ABxYbtDznt5)
 
 ## 2. Loops for Iteration
 
