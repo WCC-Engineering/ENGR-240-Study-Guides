@@ -172,7 +172,17 @@ print(f"Sum: {total}")
   - [The range() Function](https://docs.python.org/3/tutorial/controlflow.html#the-range-function)
  
 - **Berkeley Python Numerical Methods**:
-  - [Loops in Python](https://pythonnumericalmethods.berkeley.edu/notebooks/chapter03.03-Loops-in-Python.html)
+  - [Iteration](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter05.00-Iteration.html)
+
+- **Sullivan Numerical Methods YouTube Playlist**:
+  - [For Loops](https://youtu.be/plOu_VAFUSg?si=WmvDvCpJ7VlPuv6o)
+  - [Unpacking FOR Loops](https://youtu.be/askBlkCnB5s?si=xIHe_ykmLDXN4x2-)
+ 
+- **Python for Everybody Videos**
+  - [Loops and Iteration part 1](https://youtu.be/FzpurxjwmsM?si=bq_2iJw7wa4EW7Jq)
+  - [Loops and Iteration part 2](https://youtu.be/5QDrj5ogPYc?si=D4VoBhraGi603fwZ)
+  - [Loops and Iteration part 3](https://youtu.be/xsavQp8hd78?si=Znk48wDCNn_RVHhr)
+  - [Loops and Iteration part 4](https://youtu.be/yjlMMwf9Y5I?si=hvS1W2_M6sd5SmPH)
 
 ## 3. Conditional Statements
 
