@@ -1,7 +1,30 @@
 # ENGR 240 Study Guides
 
-This folder contains study guides for each week of the ENGR 240 course. These guides summarize key concepts, provide helpful resources, and offer tips for mastering the material.
+This repository contains weekly study guides for ENGR 240: Engineering Computations at Whatcom Community College. These guides summarize key concepts, provide code examples, link to helpful resources, and offer tips for mastering the material.
 
 ## Available Study Guides
 
 - [Week 1: Python Basics, NumPy, and Visualization](week1-study-guide.md)
+- [Week 2: Functions, Loops, and Conditionals](week2-study-guide.md)
+
+## Using These Study Guides
+
+Each guide is designed to complement the official course materials and provide additional support for your learning. The guides include:
+
+- Clear explanations of key concepts
+- Code examples demonstrating implementation
+- Links to official documentation and helpful tutorials
+- Practical tips for assignments and projects
+- Engineering-relevant examples
+
+## Access Online
+
+These study guides are also available as a web page at [https://wcc-engineering.github.io/ENGR-240-Study-Guides/](https://wcc-engineering.github.io/ENGR-240-Study-Guides/)
+
+## Contributing
+
+These guides are maintained by the course instructors. If you find errors or have suggestions for improvements, please contact your instructor.
+
+## License
+
+These materials are intended for students enrolled in ENGR 240 at Whatcom Community College.
