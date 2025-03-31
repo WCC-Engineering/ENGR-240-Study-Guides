@@ -21,9 +21,9 @@ This study guide covers numerical methods for finding roots of nonlinear equatio
 
 #### Root Finding Problem Statement
 
-For a continuous function $f: \mathbb{R} \rightarrow \mathbb{R}$, find values $x^*$ such that:
+For a continuous function $f: \mathbb{R} \rightarrow \mathbb{R}$, find values $x_T$ such that:
 
-$$f(x^*) = 0$$
+$$f(x_T) = 0$$
 
 A function may have:
 - No roots
@@ -37,19 +37,19 @@ If $f(a)$ and $f(b)$ have opposite signs (i.e., $f(a) \cdot f(b) < 0$), and $f$ 
 
 #### Measures of Accuracy
 
-When approximating a root $x^*$ with a numerical value $\hat{x}$, we can measure the accuracy in several ways:
+When approximating a root $x_T$ with a numerical value $x_a$, we can measure the accuracy in several ways:
 
 1. **True Error**: The absolute difference between the exact value and approximation
-   $$E_t = |x^* - \hat{x}|$$
+   $$E_t = |x_T - x_a|$$
 
 2. **True Relative Error**: The true error normalized by the exact value
-   $$\varepsilon_t = \left|\frac{x^* - \hat{x}}{x^*}\right| \times 100\%$$
+   $$\varepsilon_t = \left|\frac{x_T - x_a}{x_T}\right| \times 100\%$$
 
-3. **Approximate Relative Error**: Since $x^*$ is usually unknown, we estimate the error using consecutive approximations
-   $$\varepsilon_a = \left|\frac{\hat{x}_{new} - \hat{x}_{old}}{\hat{x}_{new}}\right| \times 100\%$$
+3. **Approximate Relative Error**: Since $x_T$ is usually unknown, we estimate the error using consecutive approximations
+   $$\varepsilon_a = \left|\frac{x_{a,new} - x_{a,old}}{x_{a,new}}\right| \times 100\%$$
 
 4. **Residual Error**: The absolute value of the function at the approximate root
-   $$\varepsilon_r = |f(\hat{x})|$$
+   $$\varepsilon_r = |f(x_a)|$$
 
 #### Stopping Criteria for Iterative Methods
 
@@ -57,7 +57,7 @@ Numerical root-finding algorithms typically use one or more of these stopping cr
 
 1. **Relative Error Criterion**: Stop when $\varepsilon_a < \varepsilon_s$, where $\varepsilon_s$ is a specified tolerance
 
-2. **Residual Criterion**: Stop when $|f(\hat{x})| < \delta$, where $\delta$ is a specified tolerance
+2. **Residual Criterion**: Stop when $|f(x_a)| < \delta$, where $\delta$ is a specified tolerance
 
 3. **Maximum Iterations**: Stop after a specified number of iterations to prevent infinite loops
 
