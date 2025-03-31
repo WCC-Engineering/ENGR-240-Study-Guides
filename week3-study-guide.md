@@ -77,80 +77,7 @@ Numerical root-finding algorithms typically use one or more of these stopping cr
 - **Python for Engineers Videos**:
   - [Root Finding Applications](PLACEHOLDER)
 
-## 2. Measuring Error in Numerical Methods
-
-### Key Concepts
-
-- **True Error**: The difference between the exact value and the approximation (often unknown)
-- **Approximate Relative Error**: The relative change between successive iterations
-- **Residual Error**: The value of f(x) at the approximate root (should be close to zero)
-- **Error Formulas**:
-  - Approximate Relative Error: $\varepsilon_a = \left|\frac{x_{new} - x_{old}}{x_{new}}\right| \times 100\%$
-  - Residual Error: $\varepsilon_r = |f(x)|$
-- **Stopping Criteria**:
-  - Maximum number of iterations
-  - Error tolerance (approximate relative error < tolerance)
-  - Residual tolerance (|f(x)| < tolerance)
-
-### Example Code: Calculating Error Metrics
-
-{% raw %}
-def calculate_errors(x_new, x_old, func):
-    """
-    Calculate error metrics for root finding.
-    
-    Parameters:
-    -----------
-    x_new : float
-        Current approximation
-    x_old : float
-        Previous approximation
-    func : function
-        The function whose root we're finding
-        
-    Returns:
-    --------
-    approx_rel_error : float
-        Approximate relative error (as percentage)
-    residual : float
-        Absolute value of function at current approximation
-    """
-    # Prevent division by zero
-    if x_new == 0:
-        approx_rel_error = float('inf')
-    else:
-        approx_rel_error = abs((x_new - x_old) / x_new) * 100
-        
-    residual = abs(func(x_new))
-    
-    return approx_rel_error, residual
-{% endraw %}
-
-# Example usage
-def f(x):
-    return x**2 - 4
-
-# Two successive approximations
-x_old = 1.9
-x_new = 2.0
-
-approx_error, residual = calculate_errors(x_new, x_old, f)
-print(f"Approximate Relative Error: {approx_error:.4f}%")
-print(f"Residual Error: {residual:.4e}")
-```
-
-### Resources
-
-- **Python Documentation**:
-  - [Error Handling](PLACEHOLDER)
-
-- **Berkeley Python Numerical Methods**:
-  - [Error Analysis](PLACEHOLDER)
-
-- **Sullivan Numerical Methods YouTube Playlist**:
-  - [Error Metrics in Numerical Methods](PLACEHOLDER)
-
-## 3. Bisection Method
+## 2. Bisection Method
 
 ### Key Concepts
 
@@ -203,7 +130,7 @@ The bisection method is one of the most reliable root-finding techniques because
 - **Sullivan Numerical Methods YouTube Playlist**:
   - [Bisection Method Algorithm](PLACEHOLDER)
 
-## 4. Newton-Raphson Method
+## 3. Newton-Raphson Method
 
 ### Key Concepts
 
@@ -255,7 +182,7 @@ The Newton-Raphson method offers quadratic convergence, making it much faster th
   - [Newton-Raphson Method Derivation](PLACEHOLDER)
   - [Newton-Raphson Method Implementation](PLACEHOLDER)
 
-## 5. Secant Method
+## 4. Secant Method
 
 ### Key Concepts
 
@@ -310,7 +237,7 @@ The secant method offers a good compromise between bisection and Newton-Raphson.
   - [Secant Method Derivation](PLACEHOLDER)
   - [Secant Method Implementation](PLACEHOLDER)
 
-## 6. Using SciPy for Root Finding
+## 5. Using SciPy for Root Finding
 
 ### Key Concepts
 
@@ -390,7 +317,7 @@ SciPy's implementations are generally more robust, efficient, and well-tested th
 - **Sullivan Numerical Methods YouTube Playlist**:
   - [Using SciPy for Root Finding](PLACEHOLDER)
 
-## 7. Comparing Root Finding Methods
+## 6. Comparing Root Finding Methods
 
 ### Key Concepts
 
@@ -439,7 +366,7 @@ When selecting a root-finding method for a specific problem, consider these key 
 
 When comparing methods visually, error plots on semi-log scales show the different convergence rates clearly, with Newton-Raphson showing the steepest descent.
 
-## 8. Engineering Application: Flow Analysis in a Converging-Diverging Nozzle
+## 7. Engineering Application: Flow Analysis in a Converging-Diverging Nozzle
 
 ### Key Concepts
 
@@ -496,7 +423,7 @@ This application demonstrates the importance of:
 - Using robust root-finding methods for engineering problems
 {% endraw %}
 
-## 9. Best Practices for Root Finding
+## 8. Best Practices for Root Finding
 
 ### Key Considerations
 
