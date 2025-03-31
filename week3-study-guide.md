@@ -366,64 +366,7 @@ When selecting a root-finding method for a specific problem, consider these key 
 
 When comparing methods visually, error plots on semi-log scales show the different convergence rates clearly, with Newton-Raphson showing the steepest descent.
 
-## 7. Engineering Application: Flow Analysis in a Converging-Diverging Nozzle
-
-### Key Concepts
-
-- **Problem Description**: Finding critical flow conditions in a converging-diverging nozzle
-- **Governing Equation**: Isentropic flow relationship between area ratio and Mach number
-- **Mathematical Formulation**:
-  
-  $$\frac{A}{A^*} = \frac{1}{M} \left[ \frac{2 + (\gamma - 1)M^2}{\gamma + 1} \right]^{\frac{\gamma + 1}{2(\gamma - 1)}}$$
-  
-  where:
-  - A/A* is the area ratio
-  - M is the Mach number
-  - γ is the specific heat ratio
-
-- **Root Finding Aspect**: For a given area ratio, find the Mach number
-
-### Engineering Application: Flow Analysis in a Converging-Diverging Nozzle
-
-{% raw %}
-One important engineering application of root-finding is analyzing flow through a converging-diverging nozzle, which is found in rocket engines, jet engines, and other propulsion systems.
-
-#### Problem Formulation:
-
-The isentropic flow relationship between area ratio and Mach number is given by:
-
-$$\frac{A}{A^*} = \frac{1}{M} \left[ \frac{2 + (\gamma - 1)M^2}{\gamma + 1} \right]^{\frac{\gamma + 1}{2(\gamma - 1)}}$$
-
-where:
-- A/A* is the area ratio (local area divided by throat area)
-- M is the Mach number (local flow velocity divided by local speed of sound)
-- γ is the specific heat ratio (1.4 for air, 1.67 for monatomic gases)
-
-#### Root Finding Aspects:
-
-1. **Direct Problem**: Given a Mach number, calculate the area ratio directly using the equation
-
-2. **Inverse Problem**: Given an area ratio, find the Mach number
-   - This requires root finding since the equation cannot be explicitly solved for M
-   - For each area ratio > 1, there are two possible solutions:
-     - Subsonic (M < 1)
-     - Supersonic (M > 1)
-
-3. **Numerical Approach**:
-   - Define a residual function: residual(M) = calculated_area_ratio(M) - target_area_ratio
-   - Use a root-finding method to find M where residual(M) = 0
-   - For subsonic flow, search in range (0,1)
-   - For supersonic flow, search in range (1,∞)
-
-The analysis involves finding Mach numbers at various positions along the nozzle based on the local area ratios, which results in a characterization of the flow behavior throughout the nozzle.
-
-This application demonstrates the importance of:
-- Selecting proper bracketing intervals for different solutions
-- Handling multiple roots with physical significance
-- Using robust root-finding methods for engineering problems
-{% endraw %}
-
-## 8. Best Practices for Root Finding
+## 7. Best Practices for Root Finding
 
 ### Key Considerations
 
