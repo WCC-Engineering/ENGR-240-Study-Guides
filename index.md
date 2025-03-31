@@ -8,6 +8,7 @@ Welcome to the ENGR 240 Study Guides! These resources are designed to help you l
 
 - [Week 1: Python Basics, NumPy, and Visualization](week1-study-guide.md)
 - [Week 2: Functions, Loops, and Conditionals](week2-study-guide.md)
+- [Week 3: Root Finding Algorithms](week3-study-guide.md)
 
 ## How to Use These Guides
 
@@ -23,3 +24,4 @@ Each study guide is organized into sections covering the main topics for that we
 - [Python Documentation](https://docs.python.org/3/)
 - [NumPy Documentation](https://numpy.org/doc/stable/)
 - [Matplotlib Documentation](https://matplotlib.org/stable/contents.html)
+- [SciPy Documentation](https://docs.scipy.org/doc/scipy/reference/)
