@@ -17,42 +17,52 @@ This study guide covers numerical methods for finding roots of nonlinear equatio
   - Determining critical values in electrical circuits
   - Computing flow rates in fluid mechanics
 
-### Example Code: Visualizing a Root Finding Problem
+### Formal Definitions and Measures of Accuracy
 
-{% raw %}
-import numpy as np
-import matplotlib.pyplot as plt
+#### Root Finding Problem Statement
 
-def f(x):
-    """Example function: f(x) = x^3 - 6x^2 + 11x - 6"""
-    return x**3 - 6*x**2 + 11*x - 6
-{% endraw %}
+For a continuous function $f: \mathbb{R} \rightarrow \mathbb{R}$, find values $x^*$ such that:
 
-# Create x values and evaluate function
-x = np.linspace(0, 4, 1000)
-y = f(x)
+$$f(x^*) = 0$$
 
-# Plot the function
-plt.figure(figsize=(10, 6))
-plt.plot(x, y)
-plt.axhline(y=0, color='r', linestyle='-', alpha=0.3)  # x-axis
-plt.grid(True)
-plt.xlabel('x')
-plt.ylabel('f(x)')
-plt.title('Visualizing Roots of f(x) = x³ - 6x² + 11x - 6')
+A function may have:
+- No roots
+- A single root
+- Multiple distinct roots
+- Roots with multiplicity (where both $f(x)=0$ and $f'(x)=0$ at the root)
 
-# Mark the roots (can be found analytically for this example)
-roots = [1, 2, 3]  # The roots of this function
-plt.scatter(roots, [0, 0, 0], color='black', s=100, zorder=3, label='Roots')
+#### Bracketing a Root
 
-plt.legend()
-plt.show()
+If $f(a)$ and $f(b)$ have opposite signs (i.e., $f(a) \cdot f(b) < 0$), and $f$ is continuous on the interval $[a,b]$, then by the Intermediate Value Theorem, there exists at least one value $c \in (a,b)$ such that $f(c) = 0$.
 
-# Print function values at roots to verify
-for root in roots:
-    print(f"f({root}) = {f(root)}")
-```
+#### Measures of Accuracy
 
+When approximating a root $x^*$ with a numerical value $\hat{x}$, we can measure the accuracy in several ways:
+
+1. **True Error**: The absolute difference between the exact value and approximation
+   $$E_t = |x^* - \hat{x}|$$
+
+2. **True Relative Error**: The true error normalized by the exact value
+   $$\varepsilon_t = \left|\frac{x^* - \hat{x}}{x^*}\right| \times 100\%$$
+
+3. **Approximate Relative Error**: Since $x^*$ is usually unknown, we estimate the error using consecutive approximations
+   $$\varepsilon_a = \left|\frac{\hat{x}_{new} - \hat{x}_{old}}{\hat{x}_{new}}\right| \times 100\%$$
+
+4. **Residual Error**: The absolute value of the function at the approximate root
+   $$\varepsilon_r = |f(\hat{x})|$$
+
+#### Stopping Criteria for Iterative Methods
+
+Numerical root-finding algorithms typically use one or more of these stopping criteria:
+
+1. **Relative Error Criterion**: Stop when $\varepsilon_a < \varepsilon_s$, where $\varepsilon_s$ is a specified tolerance
+
+2. **Residual Criterion**: Stop when $|f(\hat{x})| < \delta$, where $\delta$ is a specified tolerance
+
+3. **Maximum Iterations**: Stop after a specified number of iterations to prevent infinite loops
+
+4. **Stagnation Criterion**: Stop when the change in successive iterations becomes too small
+   
 ### Resources
 
 - **Python Documentation**:
