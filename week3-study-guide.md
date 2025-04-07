@@ -65,17 +65,8 @@ Numerical root-finding algorithms typically use one or more of these stopping cr
    
 ### Resources
 
-- **Python Documentation**:
-  - [Mathematical Functions](PLACEHOLDER)
-
-- **Berkeley Python Numerical Methods**:
-  - [Root Finding Problems](PLACEHOLDER)
-
-- **Sullivan Numerical Methods YouTube Playlist**:
-  - [Introduction to Root Finding](PLACEHOLDER)
-
-- **Python for Engineers Videos**:
-  - [Root Finding Applications](PLACEHOLDER)
+- **Sullivan Numerical Methods Textbook**:
+  - [Introduction to Root Finding](https://numericalmethodssullivan.github.io/ch-algebra.html#intro-to-numerical-root-finding)
 
 ## 2. Bisection Method
 
@@ -121,14 +112,11 @@ The bisection method is one of the most reliable root-finding techniques because
 
 ### Resources
 
-- **Python Documentation**:
-  - [Bisection Method](PLACEHOLDER)
+- **Davishahl Numerical Methods**
+  - [Bisection](https://youtu.be/PdkCEp5M4J0?si=lyW0W1fFXKPdzLth)
 
 - **Berkeley Python Numerical Methods**:
-  - [Bracketing Methods](PLACEHOLDER)
-
-- **Sullivan Numerical Methods YouTube Playlist**:
-  - [Bisection Method Algorithm](PLACEHOLDER)
+  - [Bracketing Methods](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter19.03-Bisection-Method.html)
 
 ## 3. Newton-Raphson Method
 
@@ -172,15 +160,11 @@ The Newton-Raphson method offers quadratic convergence, making it much faster th
 
 ### Resources
 
-- **Python Documentation**:
-  - [Newton-Raphson Method](PLACEHOLDER)
+- **Davishahl Numerical Methods**
+  - [Newton-Raphson](https://youtu.be/ZSTSsG3I1z8?si=InK8iC9F7Uj54rn_)
 
-- **Berkeley Python Numerical Methods**:
-  - [Open Methods for Root Finding](PLACEHOLDER)
-
-- **Sullivan Numerical Methods YouTube Playlist**:
-  - [Newton-Raphson Method Derivation](PLACEHOLDER)
-  - [Newton-Raphson Method Implementation](PLACEHOLDER)
+- **Berkeley Python Numerical Methods**:]
+  - [Newton-Raphson Method](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter19.04-Newton-Raphson-Method.html)
 
 ## 4. Secant Method
 
@@ -227,15 +211,8 @@ The secant method offers a good compromise between bisection and Newton-Raphson.
 
 ### Resources
 
-- **Python Documentation**:
-  - [Secant Method](PLACEHOLDER)
-
-- **Berkeley Python Numerical Methods**:
-  - [Derivative-Free Methods](PLACEHOLDER)
-
-- **Sullivan Numerical Methods YouTube Playlist**:
-  - [Secant Method Derivation](PLACEHOLDER)
-  - [Secant Method Implementation](PLACEHOLDER)
+- **Davishahl Numerical Methods**
+  - [Secant Method](https://youtu.be/IGB9V7mNOv8?si=pp5TJUmv9EcVoIiI)
 
 ## 5. Using SciPy for Root Finding
 
@@ -308,14 +285,8 @@ SciPy's implementations are generally more robust, efficient, and well-tested th
 ### Resources
 
 - **SciPy Documentation**:
-  - [scipy.optimize.root_scalar](PLACEHOLDER)
-  - [scipy.optimize.fsolve](PLACEHOLDER)
-
-- **Berkeley Python Numerical Methods**:
-  - [SciPy Root Finding](PLACEHOLDER)
-
-- **Sullivan Numerical Methods YouTube Playlist**:
-  - [Using SciPy for Root Finding](PLACEHOLDER)
+  - [scipy.optimize.root_scalar](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root_scalar.html)
+  - [scipy.optimize.fsolve](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.fsolve.html#scipy.optimize.fsolve)
 
 ## 6. Comparing Root Finding Methods
 
