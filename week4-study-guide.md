@@ -377,3 +377,225 @@ print("Solution via LU:", x)
 # More efficient diagonal solving for triangular systems
 y = spla.solve_triangular(L, P @ b, lower=True, unit_diagonal=True)
 ```
+
+### SciPy's Specialized Solvers
+
+SciPy provides specialized solvers for different matrix structures:
+
+{% raw %}
+```python
+import numpy as np
+import scipy.linalg as spla
+
+# For symmetric positive definite matrices
+A_spd = np.array([[4, 1, 1], [1, 3, 1], [1, 1, 3]])
+b = np.array([6, 5, 5])
+
+# Cholesky decomposition
+L = spla.cholesky(A_spd, lower=True)
+print("Cholesky factor:\n", L)
+
+# Solve using Cholesky decomposition
+x = spla.cho_solve((L, True), b)
+print("Solution via Cholesky:", x)
+
+# For banded matrices
+# Tridiagonal system with diagonals (-1, 0, 1)
+A_banded = np.array([[2, -1, 0, 0], 
+                     [-1, 2, -1, 0],
+                     [0, -1, 2, -1],
+                     [0, 0, -1, 2]])
+b = np.array([1, 0, 0, 1])
+
+# Solve banded system
+ab = np.array([[-1, -1, -1, 0], [2, 2, 2, 2], [-1, -1, -1, 0]])  # Banded storage
+x = spla.solve_banded((1, 1), ab, b)
+print("Solution for banded system:", x)
+```
+{% endraw %}
+
+### Efficiency and Best Practices
+
+1. **Choose the Right Function**:
+   - Use `np.linalg.solve` instead of computing `A_inv @ b` for better numerical stability
+   - For specialized matrix structures, use the corresponding SciPy functions
+   - When solving with multiple right-hand sides, factorize once and reuse
+
+2. **Sparse Matrices**:
+   - For large, sparse systems, use `scipy.sparse` and its solvers
+   - Tremendous savings in memory and computation time
+
+3. **Error Checking**:
+   - Verify solutions with `np.allclose(np.dot(A, x), b)`
+   - Check matrix properties before applying specialized algorithms
+
+### Resources
+
+- **NumPy and SciPy Documentation**:
+  - [NumPy Linear Algebra](https://numpy.org/doc/stable/reference/routines.linalg.html)
+  - [SciPy Linear Algebra](https://docs.scipy.org/doc/scipy/reference/linalg.html)
+
+## 5. Matrix Condition Number
+
+### Key Concepts
+
+- **Definition**: A measure of how sensitive the solution of a linear system is to small changes in the input data
+- **Formula**: The condition number of a matrix A is κ(A) = ||A|| · ||A⁻¹||
+- **Interpretation**:
+  - κ(A) ≈ 1: Well-conditioned matrix (stable solutions)
+  - κ(A) >> 1: Ill-conditioned matrix (small input changes can cause large output changes)
+  - κ(A) = ∞: Singular matrix (no unique solution)
+- **Relation to numerical error**: Error in solution ≤ κ(A) × (error in input data)
+
+### Understanding Condition Number
+
+The condition number quantifies how errors in the input data affect the solution of a linear system. A high condition number indicates that small changes in the coefficient matrix A or the right-hand side b can lead to large changes in the solution x.
+
+For a system Ax = b:
+
+- If relative error in b is εᵦ, then relative error in x can be up to κ(A) × εᵦ
+- If relative error in A is εₐ, then relative error in x can be up to κ(A) × εₐ
+
+### Computing the Condition Number
+
+In practice, the condition number is computed using the ratio of the largest to the smallest singular value:
+
+```python
+import numpy as np
+
+# Define a matrix
+A = np.array([[4, 2, 3], [3, 1, -2], [2, -3, 1]])
+
+# Compute condition number using 2-norm
+cond_num = np.linalg.cond(A)
+print("Condition number:", cond_num)
+
+# Compute singular values
+singular_values = np.linalg.svd(A, compute_uv=False)
+print("Singular values:", singular_values)
+print("Ratio of largest to smallest singular value:", singular_values[0]/singular_values[-1])
+```
+
+### Effects of Ill-Conditioning
+
+Examples of ill-conditioned matrices:
+
+1. **Nearly Dependent Rows/Columns**:
+   ```python
+   # Nearly linearly dependent rows
+   A_ill = np.array([[1, 2], [0.999, 1.999]])
+   print("Condition number:", np.linalg.cond(A_ill))
+   ```
+
+2. **Hilbert Matrix** (notoriously ill-conditioned):
+   ```python
+   # Create a 5x5 Hilbert matrix
+   n = 5
+   H = np.zeros((n, n))
+   for i in range(n):
+       for j in range(n):
+           H[i, j] = 1 / (i + j + 1)
+   print("Hilbert matrix condition number:", np.linalg.cond(H))
+   ```
+
+### Improving Conditioning
+
+Techniques to handle ill-conditioned systems:
+
+1. **Scaling**: Normalize rows or columns to similar magnitudes
+   ```python
+   # Row scaling example
+   D = np.diag(1 / np.sqrt(np.sum(A**2, axis=1)))
+   A_scaled = D @ A
+   print("Original condition number:", np.linalg.cond(A))
+   print("Scaled condition number:", np.linalg.cond(A_scaled))
+   ```
+
+2. **Regularization**: Add a small perturbation to make the matrix better conditioned
+   ```python
+   # Tikhonov regularization
+   lambda_param = 0.01
+   A_reg = A.T @ A + lambda_param * np.eye(A.shape[1])
+   b_reg = A.T @ b
+   x_reg = np.linalg.solve(A_reg, b_reg)
+   ```
+
+3. **Singular Value Decomposition (SVD)**: Solve using SVD and truncate small singular values
+   ```python
+   U, s, Vh = np.linalg.svd(A, full_matrices=False)
+   # Truncate small singular values
+   threshold = 1e-10 * s[0]
+   s_inv = np.array([1/s_val if s_val > threshold else 0 for s_val in s])
+   x_svd = Vh.T @ (s_inv * (U.T @ b))
+   ```
+
+### Resources
+
+- **Video Lectures**:
+  - [Understanding Condition Number](#) <!-- Placeholder for video link -->
+  - [Handling Ill-Conditioned Systems](#) <!-- Placeholder for video link -->
+
+## 6. Best Practices for Linear System Solving
+
+### Key Considerations
+
+- **Algorithm Selection**:
+  - For standard systems: NumPy's `linalg.solve`
+  - For multiple right-hand sides: LU factorization
+  - For symmetric positive-definite matrices: Cholesky decomposition
+  - For large sparse systems: Iterative methods from `scipy.sparse.linalg`
+
+- **Numerical Stability**:
+  - Always check the condition number before solving
+  - Use pivoting strategies for direct methods
+  - Consider scaling for poorly conditioned systems
+  - Validate solutions by substituting back
+
+- **Computational Efficiency**:
+  - Exploit matrix structure when possible
+  - Avoid explicit inverse calculation
+  - Reuse factorizations for multiple right-hand sides
+  - Consider sparse storage for large systems
+
+### Common Pitfalls and How to Avoid Them
+
+1. **Using Inverse for Solving**:
+   - Avoid `np.linalg.inv(A) @ b`
+   - Instead use `np.linalg.solve(A, b)` for better numerical stability and efficiency
+
+2. **Ignoring Ill-Conditioning**:
+   - Always check condition number: `np.linalg.cond(A)`
+   - Be cautious when condition number > 10⁶
+   - Use regularization techniques for ill-conditioned systems
+
+3. **Overlooking Matrix Structure**:
+   - Take advantage of specialized solvers for banded, triangular, or symmetric matrices
+   - Use sparse matrices when appropriate
+
+4. **Inefficient Implementation**:
+   - Avoid Python loops for matrix operations
+   - Use vectorized operations
+   - For very large systems, consider compiled solutions (Fortran/C++ via SciPy)
+
+### Resources
+
+- **Video Lectures**:
+  - [Best Practices for Linear Systems](#) <!-- Placeholder for video link -->
+
+## Tips for Week 4 Assignments
+
+1. **First, check the condition number** of any system you're working with to understand potential numerical issues.
+
+2. **Implement at least one solution algorithm from scratch** (Gauss elimination or LU factorization) to understand the underlying process.
+
+3. **Compare your implementations with NumPy/SciPy functions** to validate correctness and benchmark performance.
+
+4. **For multiple right-hand sides**, implement LU factorization to demonstrate the efficiency advantage.
+
+5. **Experiment with ill-conditioned matrices** to observe how perturbations in input affect the solution.
+
+6. **Use visualization** to help understand the systems you're solving, especially for engineering applications.
+
+7. **Document your code thoroughly** with comments explaining the mathematical steps.
+
+8. **Implement error checking** to validate solutions by substituting back into the original equations.
