@@ -220,3 +220,160 @@ When the pivot element is zero or very small, numerical errors can be magnified.
   - LU decomposition without pivoting
   - LU decomposition with partial pivoting (LUP factorization)
   - Cholesky decomposition for symmetric positive-definite matrices
+
+### LU Factorization Process
+
+The LU factorization decomposes a matrix A into:
+
+$$A = LU$$
+
+Where:
+- L is a lower triangular matrix with ones on the diagonal
+- U is an upper triangular matrix
+
+For a 3×3 system:
+
+$$
+\begin{bmatrix}
+a_{11} & a_{12} & a_{13} \\
+a_{21} & a_{22} & a_{23} \\
+a_{31} & a_{32} & a_{33}
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 & 0 \\
+l_{21} & 1 & 0 \\
+l_{31} & l_{32} & 1
+\end{bmatrix}
+\begin{bmatrix}
+u_{11} & u_{12} & u_{13} \\
+0 & u_{22} & u_{23} \\
+0 & 0 & u_{33}
+\end{bmatrix}
+$$
+
+### Computing LU Factorization
+
+The LU factorization can be computed using several methods:
+
+1. **Doolittle Algorithm**:
+   - U is the same as the upper triangular matrix obtained from Gauss elimination
+   - L contains the multipliers used during elimination
+
+2. **Crout Algorithm**:
+   - Different algorithm leading to the same result
+   - More numerically stable in some cases
+
+3. **LU with Partial Pivoting**:
+   - Adds row interchanges with a permutation matrix P
+   - Results in PA = LU
+
+### Solving Systems with LU Factorization
+
+Once A = LU factorization is available, solving Ax = b becomes:
+1. LUx = b
+2. Let Ux = y, then Ly = b
+
+The solution process:
+1. Forward substitution: Solve Ly = b for y
+2. Back substitution: Solve Ux = y for x
+
+This is particularly efficient when solving multiple systems with the same A but different b:
+- Factorize A = LU once: $O(n^3)$ operations
+- Solve Ly = b and Ux = y for each new b: $O(n^2)$ operations per system
+
+### Advantages of LU Factorization
+
+1. **Computational Efficiency**: For multiple right-hand sides (b vectors)
+   - Single factorization: $O(n^3)$ operations
+   - Each additional solution: $O(n^2)$ operations
+
+2. **Matrix Properties**:
+   - Determinant calculation: det(A) = det(L) × det(U) = product of diagonal elements of U
+   - Inverse calculation: More efficient through LU factorization
+
+3. **Stability Analysis**:
+   - Error analysis is more straightforward
+   - Pivoting strategies can be incorporated
+
+### Resources
+
+- **Video Lectures**:
+  - [LU Factorization Explained](#) <!-- Placeholder for video link -->
+  - [Using LU Factorization to Solve Systems](#) <!-- Placeholder for video link -->
+
+## 4. NumPy/SciPy Functions for Linear Systems
+
+### Key Concepts
+
+- **NumPy Functions**: np.linalg module provides core linear algebra operations
+- **SciPy Functions**: scipy.linalg module offers additional specialized functions
+- **Key Operations**:
+  - Direct solving of linear systems
+  - Computing matrix inverse
+  - LU decomposition
+  - Analysis of matrix properties (determinant, rank, etc.)
+- **Advantages**: Optimized implementations, vectorized operations, numerical stability
+
+### NumPy Functions for Linear Systems
+
+NumPy's `numpy.linalg` module provides essential functions for linear algebra operations:
+
+```python
+import numpy as np
+
+# Define coefficient matrix and right-hand side
+A = np.array([[4, 2, 3], [3, 1, -2], [2, -3, 1]])
+b = np.array([7, -1, 2])
+
+# Solve the system using numpy.linalg.solve
+x = np.linalg.solve(A, b)
+print("Solution:", x)
+
+# Check the solution
+print("Verification:", np.allclose(np.dot(A, x), b))
+
+# Compute the inverse of A
+A_inv = np.linalg.inv(A)
+print("Matrix inverse:\n", A_inv)
+
+# Compute the determinant
+det_A = np.linalg.det(A)
+print("Determinant:", det_A)
+
+# Compute the rank
+rank_A = np.linalg.matrix_rank(A)
+print("Rank:", rank_A)
+```
+
+### SciPy Functions for Linear Systems
+
+SciPy's `scipy.linalg` module extends NumPy's capabilities with more specialized functions:
+
+```python
+import numpy as np
+import scipy.linalg as spla
+
+# Define coefficient matrix and right-hand side
+A = np.array([[4, 2, 3], [3, 1, -2], [2, -3, 1]])
+b = np.array([7, -1, 2])
+
+# LU decomposition with SciPy
+P, L, U = spla.lu(A)
+print("L matrix:\n", L)
+print("U matrix:\n", U)
+print("P matrix:\n", P)
+
+# Verify A = P.T @ L @ U
+print("Verification:", np.allclose(A, P.T @ L @ U))
+
+# Solve using LU factorization
+# Forward substitution
+y = spla.solve_triangular(L, P @ b, lower=True)
+# Back substitution
+x = spla.solve_triangular(U, y, lower=False)
+print("Solution via LU:", x)
+
+# More efficient diagonal solving for triangular systems
+y = spla.solve_triangular(L, P @ b, lower=True, unit_diagonal=True)
+```
