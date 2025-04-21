@@ -83,9 +83,16 @@ $$\textbf{A}\textbf{x} = \textbf{b}$$
 - Mechanical equilibrium problems
 
 ### Resources
+- **Davishahl Numerical Methods Videos**
+  - [Intro to Linear Systems](https://youtu.be/yj0diLlHwgs?si=oYAkEv14GQwlWqEJ)
+  - [Intro to Matrix Algebra](https://youtu.be/rFNg9MQPau8?si=7__kTM7Tdnapmi9f)
 
+- **Berkeley Numerical Methods**
+   - [Basics of Linear Algebra](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter14.01-Basics-of-Linear-Algebra.html)
+   - [Systems of Linear Equations](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter14.03-Systems-of-Linear-Equations.html)
+     
 - **Sullivan Numerical Methods Textbook**:
-  - [Introduction to Linear Systems](https://numericalmethodssullivan.github.io/ch-linear.html)
+  - [Linear Algebra](https://numericalmethodssullivan.github.io/ch-linearalgebra.html#intro-to-numerical-linear-algebra)
 
 ## 2. Gauss Elimination
 
@@ -202,9 +209,12 @@ When the pivot element is zero or very small, numerical errors can be magnified.
 
 ### Resources
 
-- **Video Lectures**:
-  - [Gauss Elimination Introduction](#) <!-- Placeholder for video link -->
-  - [Gauss Elimination with Pivoting](#) <!-- Placeholder for video link -->
+- **Davishahl Numerical Methods Videos**:
+  - [Gauss Elimination](https://youtu.be/n7XYMsypvA0?si=50-qAFvBM8v9MZ5Z)
+  - [Gauss Elimination Efficiency](https://youtu.be/5MgBn5WyaUU?si=M8JP7CC3JlxBYrLt)
+ 
+- **Berkeley Numerical Methods**
+  - [Solutions to Systems of Linear Equations] (https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter14.04-Solutions-to-Systems-of-Linear-Equations.html)
 
 ## 3. LU Factorization
 
@@ -298,9 +308,8 @@ This is particularly efficient when solving multiple systems with the same A but
 
 ### Resources
 
-- **Video Lectures**:
-  - [LU Factorization Explained](#) <!-- Placeholder for video link -->
-  - [Using LU Factorization to Solve Systems](#) <!-- Placeholder for video link -->
+- **Davishahl Numerical Methods Videos**:
+  - [LU Factorization](https://youtu.be/8_0Xo9pwY14?si=vFa5c8KVIQCBKUOf) 
 
 ## 4. NumPy/SciPy Functions for Linear Systems
 
@@ -431,6 +440,9 @@ print("Solution for banded system:", x)
 
 ### Resources
 
+- **Berkeley Numerical Methods**
+  - [Solve Systems of Linear Equations in Python](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter14.05-Solve-Systems-of-Linear-Equations-in-Python.html)
+    
 - **NumPy and SciPy Documentation**:
   - [NumPy Linear Algebra](https://numpy.org/doc/stable/reference/routines.linalg.html)
   - [SciPy Linear Algebra](https://docs.scipy.org/doc/scipy/reference/linalg.html)
@@ -531,9 +543,9 @@ Techniques to handle ill-conditioned systems:
 
 ### Resources
 
-- **Video Lectures**:
-  - [Understanding Condition Number](#) <!-- Placeholder for video link -->
-  - [Handling Ill-Conditioned Systems](#) <!-- Placeholder for video link -->
+- **Davishahl Numerical Methods Videos**:
+  - [Floating Point Precision](https://youtu.be/iDRkUGTHNXw?si=ewDWuqiNGS1wyjg9)
+  - [Gauss Elimination Accuracy](https://youtu.be/qOlr__85-o0?si=grkefh43G-fNgdV4)
 
 ## 6. Best Practices for Linear System Solving
 
@@ -576,11 +588,6 @@ Techniques to handle ill-conditioned systems:
    - Avoid Python loops for matrix operations
    - Use vectorized operations
    - For very large systems, consider compiled solutions (Fortran/C++ via SciPy)
-
-### Resources
-
-- **Video Lectures**:
-  - [Best Practices for Linear Systems](#) <!-- Placeholder for video link -->
 
 ## Tips for Week 4 Assignments
 
