@@ -8,6 +8,7 @@ This repository contains weekly study guides for ENGR 240: Engineering Computati
 - [Week 2: Functions, Loops, and Conditionals](week2-study-guide.md)
 - [Week 3: Root Finding Algorithms](week3-study-guide.md)
 - [Week 4: Linear Systems of Equations](week4-study-guide.md)
+- [Week 5: Curve Fitting with Regression Analysis](week5-study-guide.md)
 
 ## Using These Study Guides
 
