@@ -54,14 +54,10 @@ The goal is to determine the parameter values that minimize some measure of the 
 ### Resources
 
 - **Davishahl Numerical Methods Videos**:
-  - [Introduction to Curve Fitting](VIDEO_LINK_HERE)
+  - [Linear Regression](https://youtu.be/qo6-Dp_smIg?si=DBpo4WbImf5VdX2L)
 
 - **Berkeley Numerical Methods**:
-  - [Curve Fitting](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter17.00-Curve-Fitting.html)
-  - [Linear Regression](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter17.01-Linear-Regression.html)
-
-- **Sullivan Numerical Methods Textbook**:
-  - [Curve Fitting Basics](https://numericalmethodssullivan.github.io/ch-curvefitting.html)
+  - [Least-Squares Regression](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter16.00-Least-Squares-Regression.html)
 
 ## 2. Method of Least Squares
 
@@ -106,7 +102,9 @@ In NumPy, this can be computed using `np.linalg.lstsq(Z, y)`.
 ### Resources
 
 - **Davishahl Numerical Methods Videos**:
-  - [Least Squares Method](VIDEO_LINK_HERE)
+
+  - [Linear Regression](https://youtu.be/qo6-Dp_smIg?si=DBpo4WbImf5VdX2L)
+
 
 ## 3. Linear Regression
 
@@ -166,11 +164,6 @@ plt.show()
    - Handles multiple independent variables: $y = \beta_0 + \beta_1x_1 + \beta_2x_2 + ... + \beta_mx_m$
    - Design matrix has a column for each variable plus a column of ones for the intercept
    - Useful for modeling complex relationships with multiple factors
-
-### Resources
-
-- **Berkeley Numerical Methods**:
-  - [Polynomial Regression](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter17.04-Polynomial-Regression.html)
 
 ## 4. Linearizing Nonlinear Models
 
@@ -258,7 +251,7 @@ plt.show()
 ### Resources
 
 - **Davishahl Numerical Methods Videos**:
-  - [Linearizing Nonlinear Models](VIDEO_LINK_HERE)
+  - [Linear Regression with Nonlinear Models](https://youtu.be/FdhCnHXmoi8?si=itNgU6zfabQzRj0O)
 
 ## 5. Direct Nonlinear Regression
 
@@ -413,7 +406,7 @@ T_predicted = predict_temperature(R_data, coefficients)
 ### Resources
 
 - **Davishahl Numerical Methods Videos**:
-  - [General Linear Least Squares](VIDEO_LINK_HERE)
+  - [General Linear Least Squares](https://youtu.be/593YmHgIoMI?si=Ey3AWmC-gijkjbqc)
 
 ## 7. Fit Quality Statistics
 
@@ -589,9 +582,3 @@ def fit_quality_stats(y_observed, y_predicted, num_params):
    - Quality assessment of the fit
 
 These tips will help you successfully complete the Week 5 programming assignments and develop a solid understanding of curve fitting techniques for engineering applications.
-
-### Resources
-
-- **Davishahl Numerical Methods Videos**:
-  - [Visualization Conventions](VIDEO_LINK_HERE)
-  - [Tips for Curve Fitting](VIDEO_LINK_HERE)
