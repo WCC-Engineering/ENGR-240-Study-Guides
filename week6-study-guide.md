@@ -622,7 +622,7 @@ plt.show()
 ### Resources
 
 - **Davishahl Numerical Methods Videos**:
-  - [Cubic Splines](https://youtu.be/O4ujHm8Q1UM?si=iMXuElC1YYa2Bwof)
+  - [Cubic Splines](https://youtu.be/sZITw1X2ctU?si=j3m2d4hqR8DWtsXf)
 
 - **SciPy Documentation**:
   - [scipy.interpolate.interp1d](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.interp1d.html)
