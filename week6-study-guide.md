@@ -176,3 +176,127 @@ plt.show()
 
 - **NumPy Documentation**:
   - [numpy.interp](https://numpy.org/doc/stable/reference/generated/numpy.interp.html)
+
+## 3. Polynomial Interpolation
+
+### Key Concepts
+
+- **Definition**: Polynomial interpolation finds a polynomial of degree at most $n$ that passes through $n+1$ data points
+- **Uniqueness**: There is exactly one polynomial of degree $\leq n$ that passes through $n+1$ distinct points
+- **Applications**:
+  - Function approximation
+  - Numerical integration (basis for Gaussian quadrature)
+  - Numerical differentiation
+- **Advantages**:
+  - Smooth function with continuous derivatives
+  - Exact representation of polynomial data
+  - Well-understood mathematical properties
+- **Limitations**:
+  - High degree polynomials can oscillate wildly between data points (Runge's phenomenon)
+  - Sensitive to errors in data
+  - Computationally intensive for large datasets
+
+### Mathematical Formulation
+
+The general form of the interpolating polynomial is:
+
+$$P_n(x) = a_0 + a_1x + a_2x^2 + ... + a_nx^n$$
+
+Where the coefficients $a_0, a_1, ..., a_n$ are determined by solving the system of equations:
+
+$$P_n(x_i) = y_i \text{ for } i = 0, 1, 2, ..., n$$
+
+### Implementation in Python
+
+{% raw %}
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from numpy.polynomial import Polynomial
+
+# Sample data points
+x_data = np.array([0, 1, 2, 4, 5])
+y_data = np.array([0, 1, 4, 16, 25])
+
+# Method 1: Using numpy.polyfit to find the polynomial coefficients
+# For an exact interpolation, the degree should be n-1 where n is the number of points
+degree = len(x_data) - 1
+coeffs = np.polyfit(x_data, y_data, degree)
+
+# Print the polynomial coefficients (highest power first)
+print("Polynomial coefficients (highest power first):", coeffs)
+
+# Create a polynomial function using the coefficients
+p = np.poly1d(coeffs)
+
+# Create x values for smooth curve
+x_smooth = np.linspace(min(x_data), max(x_data), 100)
+y_smooth = p(x_smooth)
+
+# Method 2: Using SciPy's interpolation
+from scipy.interpolate import lagrange
+poly_lagrange = lagrange(x_data, y_data)
+
+# Plot the data and interpolation
+plt.figure(figsize=(10, 6))
+plt.plot(x_data, y_data, 'o', label='Data points')
+plt.plot(x_smooth, y_smooth, '-', label=f'Polynomial interpolation (degree {degree})')
+plt.plot(x_smooth, [poly_lagrange(x) for x in x_smooth], '--', 
+         label='Lagrange interpolation')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Polynomial Interpolation Example')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Demonstrate Runge's phenomenon with equidistant points
+# Generate equidistant points on [-5, 5]
+x_runge = np.linspace(-5, 5, 11)
+# Runge function: f(x) = 1/(1 + x²)
+y_runge = 1 / (1 + x_runge**2)
+
+# Fit high-degree polynomial
+coeffs_runge = np.polyfit(x_runge, y_runge, len(x_runge)-1)
+p_runge = np.poly1d(coeffs_runge)
+
+# Generate points for smooth curve
+x_smooth_runge = np.linspace(-5, 5, 200)
+y_smooth_runge = p_runge(x_smooth_runge)
+y_true_runge = 1 / (1 + x_smooth_runge**2)
+
+# Plot Runge's phenomenon
+plt.figure(figsize=(10, 6))
+plt.plot(x_runge, y_runge, 'o', label='Equidistant points')
+plt.plot(x_smooth_runge, y_true_runge, '-', label='True function: 1/(1+x²)')
+plt.plot(x_smooth_runge, y_smooth_runge, '--', 
+         label=f'Polynomial interpolation (degree {len(x_runge)-1})')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title("Runge's Phenomenon Demonstration")
+plt.legend()
+plt.grid(True)
+plt.ylim(-0.5, 1.5)  # Limit y-axis to show the oscillations
+plt.show()
+```
+{% endraw %}
+
+### Runge's Phenomenon
+
+Runge's phenomenon is a problem of oscillation that occurs when using high-degree polynomial interpolation with equidistant interpolation points. The oscillation becomes more pronounced near the edges of the interval.
+
+For example, when interpolating the Runge function $f(x) = \frac{1}{1+x^2}$ on the interval $[-5, 5]$ with equidistant points, the interpolating polynomial diverges near the boundaries.
+
+The standard mitigation strategies include:
+1. Using non-equidistant points (e.g., Chebyshev nodes)
+2. Using piecewise interpolation (e.g., splines)
+3. Using a lower-degree polynomial with a least-squares fit
+
+### Resources
+
+- **Davishahl Numerical Methods Videos**:
+  - [Polynomial Interpolation] <!-- Video link to be added -->
+
+- **SciPy Documentation**:
+  - [scipy.interpolate.lagrange](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.lagrange.html)
+  - [numpy.polyfit](https://numpy.org/doc/stable/reference/generated/numpy.polyfit.html)
