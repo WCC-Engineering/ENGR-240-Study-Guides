@@ -300,3 +300,170 @@ The standard mitigation strategies include:
 - **SciPy Documentation**:
   - [scipy.interpolate.lagrange](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.lagrange.html)
   - [numpy.polyfit](https://numpy.org/doc/stable/reference/generated/numpy.polyfit.html)
+
+## 4. Lagrange Polynomial Interpolation
+
+### Key Concepts
+
+- **Definition**: Lagrange polynomial interpolation is a specific form of polynomial interpolation that uses a basis of Lagrange polynomials
+- **Lagrange Basis Polynomials**: Functions constructed to be 1 at one data point and 0 at all others
+- **Applications**:
+  - Same as general polynomial interpolation
+  - Particularly useful in numerical integration
+  - Used in finite element analysis
+- **Advantages**:
+  - Elegant mathematical formulation
+  - Does not require solving a system of equations
+  - Easy to understand conceptually
+- **Limitations**:
+  - Same as general polynomial interpolation (Runge's phenomenon, etc.)
+  - Computationally inefficient for large numbers of points or when points are added/removed
+
+### Mathematical Formulation
+
+The Lagrange interpolating polynomial is defined as:
+
+$$L(x) = \sum_{i=0}^{n} y_i \ell_i(x)$$
+
+where $\ell_i(x)$ are the Lagrange basis polynomials:
+
+$$\ell_i(x) = \prod_{j=0, j \neq i}^{n} \frac{x - x_j}{x_i - x_j}$$
+
+For each $i$, the function $\ell_i(x)$ is a polynomial of degree $n$ with the property that $\ell_i(x_j) = 1$ if $i = j$ and $\ell_i(x_j) = 0$ if $i \neq j$.
+
+### Implementation in Python
+
+{% raw %}
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+def lagrange_basis(x, i, x_points):
+    """
+    Compute the Lagrange basis polynomial ℓ_i(x)
+    
+    Parameters:
+    -----------
+    x : float or array
+        Point(s) at which to evaluate the basis polynomial
+    i : int
+        Index of the basis polynomial
+    x_points : array
+        Interpolation points
+        
+    Returns:
+    --------
+    result : float or array
+        Value of the i-th Lagrange basis polynomial at x
+    """
+    n = len(x_points)
+    result = 1.0
+    
+    for j in range(n):
+        if j != i:
+            result *= (x - x_points[j]) / (x_points[i] - x_points[j])
+            
+    return result
+
+def lagrange_interpolation(x, x_points, y_points):
+    """
+    Perform Lagrange polynomial interpolation
+    
+    Parameters:
+    -----------
+    x : float or array
+        Point(s) at which to evaluate the interpolating polynomial
+    x_points : array
+        x-coordinates of the data points
+    y_points : array
+        y-coordinates of the data points
+        
+    Returns:
+    --------
+    result : float or array
+        Interpolated value(s) at x
+    """
+    n = len(x_points)
+    result = 0.0
+    
+    for i in range(n):
+        result += y_points[i] * lagrange_basis(x, i, x_points)
+        
+    return result
+
+# Sample data points (using points that result in a simple polynomial)
+x_data = np.array([0, 1, 2, 3])
+y_data = np.array([1, 3, 9, 27])  # These points lie on y = 3^x
+
+# Create x values for smooth curve
+x_smooth = np.linspace(min(x_data), max(x_data), 100)
+y_smooth = lagrange_interpolation(x_smooth, x_data, y_data)
+
+# Plot the data and interpolation
+plt.figure(figsize=(10, 6))
+plt.plot(x_data, y_data, 'o', label='Data points')
+plt.plot(x_smooth, y_smooth, '-', label='Lagrange interpolation')
+
+# Plot the individual Lagrange basis polynomials
+for i in range(len(x_data)):
+    basis_values = [lagrange_basis(x, i, x_data) for x in x_smooth]
+    plt.plot(x_smooth, basis_values, '--', label=f'Basis ℓ_{i}(x)')
+
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Lagrange Polynomial Interpolation')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Now plot just the Lagrange basis polynomials on a separate figure
+plt.figure(figsize=(10, 6))
+for i in range(len(x_data)):
+    basis_values = [lagrange_basis(x, i, x_data) for x in x_smooth]
+    plt.plot(x_smooth, basis_values, label=f'ℓ_{i}(x)')
+
+# Add vertical lines at data points
+for i, x_val in enumerate(x_data):
+    plt.axvline(x=x_val, color='gray', linestyle='--', alpha=0.5)
+    plt.text(x_val, 1.1, f'x_{i}={x_val}', horizontalalignment='center')
+
+plt.xlabel('x')
+plt.ylabel('ℓ_i(x)')
+plt.title('Lagrange Basis Polynomials')
+plt.legend()
+plt.grid(True)
+plt.ylim(-0.5, 1.5)
+plt.show()
+
+# Use SciPy's implementation for comparison
+from scipy.interpolate import lagrange
+poly_scipy = lagrange(x_data, y_data)
+y_scipy = [poly_scipy(x) for x in x_smooth]
+
+plt.figure(figsize=(10, 6))
+plt.plot(x_data, y_data, 'o', label='Data points')
+plt.plot(x_smooth, y_smooth, '-', label='Our implementation')
+plt.plot(x_smooth, y_scipy, '--', label='SciPy implementation')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Lagrange Interpolation Comparison')
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+{% endraw %}
+
+### Key Properties of Lagrange Interpolation
+
+1. **Basis Polynomials**: Each Lagrange basis polynomial $\ell_i(x)$ is designed to be 1 at $x_i$ and 0 at all other data points
+2. **Linear Combination**: The interpolating polynomial is a linear combination of the basis polynomials weighted by the y-values
+3. **Degree**: The resulting polynomial has degree at most $n$ for $n+1$ data points
+4. **Equivalence**: The Lagrange form produces the same polynomial as other interpolation methods (e.g., Newton's divided differences) but with a different representation
+
+### Resources
+
+- **Davishahl Numerical Methods Videos**:
+  - [Lagrange Interpolation] <!-- Video link to be added -->
+
+- **SciPy Documentation**:
+  - [scipy.interpolate.lagrange](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.lagrange.html)
