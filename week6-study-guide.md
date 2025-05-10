@@ -51,10 +51,10 @@ This means the function passes exactly through every data point.
 ### Resources
 
 - **Davishahl Numerical Methods Videos**:
-  - [Introduction to Interpolation] <!-- Video link to be added -->
+  - [Introduction to Interpolation](https://youtu.be/z5bQJNoKVcw?si=uktZdc_PNDpwKypy) 
 
 - **Python Numerical Methods**:
-  - [Interpolation Basics](https://pythonnumericalmethods.berkeley.edu/notebooks/chapter17.01-Interpolation.html)
+  - [Interpolation Basics](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter17.00-Interpolation.html)
 
 ## 2. Linear Interpolation
 
@@ -171,11 +171,8 @@ plt.show()
 
 ### Resources
 
-- **Davishahl Numerical Methods Videos**:
-  - [Linear Interpolation] <!-- Video link to be added -->
-
 - **NumPy Documentation**:
-  - [numpy.interp](https://numpy.org/doc/stable/reference/generated/numpy.interp.html)
+  - [numpy.interp](https://numpy.org/doc/2.1/reference/generated/numpy.interp.html)
 
 ## 3. Polynomial Interpolation
 
@@ -294,11 +291,7 @@ The standard mitigation strategies include:
 
 ### Resources
 
-- **Davishahl Numerical Methods Videos**:
-  - [Polynomial Interpolation] <!-- Video link to be added -->
-
-- **SciPy Documentation**:
-  - [scipy.interpolate.lagrange](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.lagrange.html)
+- **NumPy Documentation**:
   - [numpy.polyfit](https://numpy.org/doc/stable/reference/generated/numpy.polyfit.html)
 
 ## 4. Lagrange Polynomial Interpolation
@@ -463,7 +456,7 @@ plt.show()
 ### Resources
 
 - **Davishahl Numerical Methods Videos**:
-  - [Lagrange Interpolation] <!-- Video link to be added -->
+  - [Lagrange Polynomials](https://youtu.be/efI17dsB4BE?si=j1EZVDw005w67-U6)
 
 - **SciPy Documentation**:
   - [scipy.interpolate.lagrange](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.lagrange.html)
