@@ -460,3 +460,239 @@ plt.show()
 
 - **SciPy Documentation**:
   - [scipy.interpolate.lagrange](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.lagrange.html)
+
+## 5. Piecewise Interpolation and Splines
+
+### Key Concepts
+
+- **Definition**: Piecewise interpolation uses different interpolating functions for different segments of the data range
+- **Splines**: Piecewise polynomials with smoothness constraints at the connection points (knots)
+- **Applications**:
+  - Computer-aided design (CAD)
+  - Computer graphics and animation
+  - Image processing
+  - Data smoothing and analysis
+  - Modern manufacturing (CNC machining)
+- **Advantages**:
+  - Avoids oscillations of high-degree polynomials
+  - Better control over local behavior
+  - Can maintain smoothness while using low-degree polynomials
+  - More robust with noisy or densely sampled data
+- **Types of Splines**:
+  - Linear splines: Connected linear segments (C⁰ continuity)
+  - Quadratic splines: Connected quadratic polynomials (C¹ continuity)
+  - Cubic splines: Connected cubic polynomials (C² continuity)
+  - B-splines: Basis splines with local support
+  - NURBS: Non-uniform rational B-splines (used in CAD)
+
+### Cubic Splines
+
+Cubic splines are particularly popular because they balance smoothness and computational simplicity. A cubic spline has:
+- A different cubic polynomial for each interval
+- Continuous first and second derivatives at the knots
+- Natural or clamped boundary conditions
+
+For $n+1$ data points, there are $n$ intervals, each with a cubic polynomial (4 coefficients), requiring $4n$ parameters. The constraints provide $4n-2$ equations, with boundary conditions providing the final 2.
+
+### Implementation in Python
+
+{% raw %}
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d, CubicSpline
+
+# Sample data points
+x_data = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+y_data = np.array([1, 3, 5, 4, 7, 9, 8, 10, 8, 6, 5])
+
+# Create a dense x-grid for plotting smooth curves
+x_smooth = np.linspace(min(x_data), max(x_data), 500)
+
+# Create various interpolation methods
+linear_interp = interp1d(x_data, y_data, kind='linear')
+quadratic_interp = interp1d(x_data, y_data, kind='quadratic')
+cubic_interp = interp1d(x_data, y_data, kind='cubic')
+
+# SciPy's CubicSpline (more control over boundary conditions)
+cs_natural = CubicSpline(x_data, y_data, bc_type='natural')  # Natural boundary conditions (second derivative = 0)
+cs_clamped = CubicSpline(x_data, y_data, bc_type='clamped', extrapolate=False)  # Clamped to zero slope
+
+# Calculate interpolated values
+y_linear = linear_interp(x_smooth)
+y_quadratic = quadratic_interp(x_smooth)
+y_cubic = cubic_interp(x_smooth)
+y_cs_natural = cs_natural(x_smooth)
+y_cs_clamped = cs_clamped(x_smooth)
+
+# Plot the results
+plt.figure(figsize=(12, 8))
+plt.plot(x_data, y_data, 'o', label='Data points')
+plt.plot(x_smooth, y_linear, '-', label='Linear spline')
+plt.plot(x_smooth, y_quadratic, '-', label='Quadratic spline')
+plt.plot(x_smooth, y_cubic, '-', label='Cubic spline (interp1d)')
+plt.plot(x_smooth, y_cs_natural, '--', label='Natural cubic spline')
+plt.plot(x_smooth, y_cs_clamped, '-.', label='Clamped cubic spline')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Comparison of Different Spline Interpolation Methods')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Visualize the first derivatives (to show continuity differences)
+plt.figure(figsize=(12, 8))
+
+# Calculate derivatives (use central differences for linear spline)
+h = x_smooth[1] - x_smooth[0]
+dy_linear = np.gradient(y_linear, h)
+dy_quadratic = np.gradient(y_quadratic, h)
+dy_cubic = np.gradient(y_cubic, h)
+dy_cs_natural = cs_natural(x_smooth, 1)  # First derivative
+dy_cs_clamped = cs_clamped(x_smooth, 1)  # First derivative
+
+plt.plot(x_smooth, dy_linear, '-', label='Linear spline derivative')
+plt.plot(x_smooth, dy_quadratic, '-', label='Quadratic spline derivative')
+plt.plot(x_smooth, dy_cubic, '-', label='Cubic spline derivative')
+plt.plot(x_smooth, dy_cs_natural, '--', label='Natural cubic spline derivative')
+plt.plot(x_smooth, dy_cs_clamped, '-.', label='Clamped cubic spline derivative')
+plt.xlabel('x')
+plt.ylabel('dy/dx')
+plt.title('First Derivatives of Spline Interpolations')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Visualize the second derivatives (to show continuity differences)
+plt.figure(figsize=(12, 8))
+
+# Calculate second derivatives
+d2y_linear = np.gradient(dy_linear, h)
+d2y_quadratic = np.gradient(dy_quadratic, h)
+d2y_cubic = np.gradient(dy_cubic, h)
+d2y_cs_natural = cs_natural(x_smooth, 2)  # Second derivative
+d2y_cs_clamped = cs_clamped(x_smooth, 2)  # Second derivative
+
+plt.plot(x_smooth, d2y_linear, '-', label='Linear spline second derivative')
+plt.plot(x_smooth, d2y_quadratic, '-', label='Quadratic spline second derivative')
+plt.plot(x_smooth, d2y_cubic, '-', label='Cubic spline second derivative')
+plt.plot(x_smooth, d2y_cs_natural, '--', label='Natural cubic spline second derivative')
+plt.plot(x_smooth, d2y_cs_clamped, '-.', label='Clamped cubic spline second derivative')
+plt.xlabel('x')
+plt.ylabel('d²y/dx²')
+plt.title('Second Derivatives of Spline Interpolations')
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+{% endraw %}
+
+### Types of Boundary Conditions
+
+1. **Natural Spline**:
+   - Second derivative at endpoints is zero
+   - Corresponds to a free-hanging beam
+
+2. **Clamped Spline**:
+   - First derivative at endpoints is specified (often set to zero)
+   - Provides more control over the shape at boundaries
+
+3. **Not-a-knot**:
+   - Third derivative is continuous at the second and second-to-last knots
+   - Default in MATLAB and often in SciPy
+
+### Engineering Applications of Splines
+
+1. **Computer-Aided Design (CAD)**:
+   - Creating smooth curves and surfaces for mechanical parts
+   - Maintaining geometric continuity for aesthetic and functional purposes
+
+2. **Finite Element Analysis**:
+   - Representing displacement fields
+   - Approximating complex geometries
+
+3. **Signal Processing**:
+   - Resampling signals at different rates
+   - Smooth data reconstruction from samples
+
+4. **Control Systems**:
+   - Generating smooth reference trajectories
+   - Motion planning for robots and automated systems
+
+### Resources
+
+- **Davishahl Numerical Methods Videos**:
+  - [Cubic Splines](https://youtu.be/O4ujHm8Q1UM?si=iMXuElC1YYa2Bwof)
+
+- **SciPy Documentation**:
+  - [scipy.interpolate.interp1d](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.interp1d.html)
+  - [scipy.interpolate.CubicSpline](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.CubicSpline.html)
+
+## 6. Choosing the Right Interpolation Method
+
+### Comparison of Methods
+
+| Method | Advantages | Disadvantages | Best Used When |
+|--------|------------|---------------|----------------|
+| Linear Interpolation | Simple, stable, efficient | Not smooth, limited accuracy | Data changes roughly linearly; computational efficiency is critical |
+| Polynomial Interpolation | Single smooth function, easy derivatives | Runge's phenomenon, sensitive to errors | Small number of points; underlying function is smooth |
+| Lagrange Polynomials | Direct formula, no system solving | Same issues as polynomial interpolation | Need explicit form of interpolating polynomial |
+| Cubic Splines | Smooth, avoids oscillations, local control | More complex implementation | Need smooth curves through many points; aesthetics matter |
+| B-splines | Local control, numeric stability | More complex mathematically | Need both smoothness and local shape control |
+
+### Selection Guidelines
+
+1. **Consider the Data Characteristics**:
+   - Are the data points exact or noisy?
+   - How dense are the data points?
+   - Is the underlying function smooth or discontinuous?
+
+2. **Consider the Application Requirements**:
+   - Is smoothness (continuous derivatives) important?
+   - Is computational efficiency critical?
+   - Is local control over the curve shape needed?
+   - Will you need to evaluate derivatives of the interpolant?
+
+3. **Common Choices by Application**:
+   - **Engineering Design**: Cubic or B-splines for smooth curves
+   - **Real-time Systems**: Linear interpolation for efficiency
+   - **Scientific Visualization**: Cubic splines for smooth appearance
+   - **Numerical Integration**: Polynomial or spline interpolation
+   - **Function Approximation**: Low-degree polynomial or spline interpolation
+
+## 7. Tips for Week 6 Assignments
+
+1. **Understand the Problem Domain**:
+   - Different interpolation methods are appropriate for different problems
+   - Consider the physical meaning of the data and what kind of behavior you expect between points
+
+2. **Visualize Your Results**:
+   - Always plot your interpolated function along with the original data points
+   - For splines, consider plotting the derivatives to check continuity
+   - Compare multiple methods on the same plot to see differences
+
+3. **Check Boundary Behavior**:
+   - Pay special attention to how different methods behave at the endpoints
+   - Try different boundary conditions for splines and observe the effects
+
+4. **Watch Out for Runge's Phenomenon**:
+   - Be cautious when using high-degree polynomial interpolation
+   - Consider using Chebyshev nodes instead of equidistant points
+   - If oscillations appear, switch to splines or lower-degree piecewise polynomials
+
+5. **Evaluate Accuracy**:
+   - If the true function is known, calculate the interpolation error
+   - Compare the error across different methods
+   - Consider the error not just at data points but between them
+
+6. **Consider Implementation Efficiency**:
+   - For large datasets, piecewise methods are more efficient
+   - Precompute coefficients when possible rather than recalculating for each evaluation
+   - Use vectorized operations in NumPy for better performance
+
+7. **Document Your Process**:
+   - Explain why you chose a particular interpolation method
+   - Document any challenges encountered and how you addressed them
+   - Include relevant visualizations that illustrate your findings
+
+These tips will help you successfully navigate the Week 6 interpolation assignments and develop a solid understanding of when and how to apply different interpolation techniques in engineering contexts.
