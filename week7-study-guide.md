@@ -1,35 +1,3 @@
-plt.loglog(n_values, trap_errors, 'o-', label='Trapezoid Rule')
-plt.loglog(n_values, simp_errors, 's-', label='Simpson\'s 1/3 Rule')
-plt.loglog(n_values, simp38_errors, '^-', label='Simpson\'s 3/8 Rule')
-plt.loglog(n_values, np.array(n_values)**(-2), 'k--', label='O(h²) Reference')
-plt.loglog(n_values, np.array(n_values)**(-4), 'k-.', label='O(h⁴) Reference')
-plt.xlabel('Number of Subintervals (n)')
-plt.ylabel('Absolute Error')
-plt.legend()
-plt.grid(True)
-plt.title('Error Convergence of Integration Methods')
-plt.show()
-```
-{% endraw %}
-
-### Using NumPy and SciPy Integration Functions
-
-NumPy and SciPy provide built-in functions for numerical integration:
-
-{% raw %}
-```python
-import numpy as np
-from scipy import integrate
-
-def f(x):
-    return np.sin(x)**2
-
-# Integration limits
-a, b = 0, np.pi
-
-# Exact value
-exact = integrate.quad(f, a, b)[0]
-
 # Using numpy.trapz
 x = np.linspace(a, b, 100)
 y = f(x)
