@@ -1,3 +1,208 @@
+4. **Consistency**: Derivatives are continuous across the entire domain
+
+### Resources
+
+- **Davishahl Numerical Methods Videos**
+  - [Spline Differentiation](#) <!-- Video link to be inserted by you -->
+  
+- **SciPy Documentation**
+  - [scipy.interpolate](https://docs.scipy.org/doc/scipy/reference/interpolate.html)
+  - [CubicSpline](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.CubicSpline.html)
+
+## 5. Introduction to Numerical Integration
+
+### Key Concepts
+
+- **Numerical Integration**: Approximating definite integrals using function values at discrete points
+- **Quadrature**: The numerical computation of an integral
+- **Applications**:
+  - Volume and area calculations
+  - Work and energy computations
+  - Probability and statistics
+  - Signal processing
+- **Advantages over Analytical Integration**:
+  - Can handle functions without closed-form antiderivatives
+  - Works with tabular data
+  - Often simple to implement and computationally efficient
+
+### Mathematical Foundation
+
+A definite integral is defined as:
+
+$$\int_{a}^{b} f(x) \, dx = \lim_{n \to \infty} \sum_{i=1}^{n} f(x_i^*) \Delta x$$
+
+Where $\Delta x = \frac{b-a}{n}$ and $x_i^*$ is any point in the interval $[x_{i-1}, x_i]$.
+
+Numerical integration methods approximate this sum using finite values of $n$ and specific choices of evaluation points.
+
+### Riemann Sums
+
+The simplest form of numerical integration uses Riemann sums:
+
+1. **Left Riemann Sum**: $\sum_{i=1}^{n} f(x_{i-1}) \Delta x$
+2. **Right Riemann Sum**: $\sum_{i=1}^{n} f(x_i) \Delta x$
+3. **Midpoint Riemann Sum**: $\sum_{i=1}^{n} f\left(\frac{x_{i-1}+x_i}{2}\right) \Delta x$
+
+These are first-order methods with error proportional to the step size.
+
+### Classification of Integration Methods
+
+Numerical integration methods can be classified by:
+
+1. **Newton-Cotes Formulas**:
+   - Based on polynomial interpolation of equally spaced points
+   - Open formulas: Don't include endpoints
+   - Closed formulas: Include endpoints
+   - Examples: Trapezoid rule, Simpson's rules
+
+2. **Gaussian Quadrature**:
+   - Based on orthogonal polynomials
+   - Uses optimally placed evaluation points and weights
+   - Higher accuracy with fewer function evaluations
+   - Examples: Gauss-Legendre, Gauss-Hermite
+
+3. **Adaptive Methods**:
+   - Dynamically adjust the step size based on local error estimates
+   - Concentrate evaluations where needed
+   - Examples: Adaptive Simpson's, Gauss-Kronrod
+
+4. **Monte Carlo Methods**:
+   - Use random sampling for high-dimensional integrals
+   - Error decreases as $O(1/\sqrt{n})$ regardless of dimension
+
+### Resources
+
+- **Davishahl Numerical Methods Videos**
+  - [Introduction to Numerical Integration](#) <!-- Video link to be inserted by you -->
+
+- **Berkeley Numerical Methods**
+  - [Numerical Integration](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter19.00-Numerical-Integration.html)
+
+## 6. Newton-Cotes Formulas
+
+### Key Concepts
+
+- **Newton-Cotes Formulas**: Family of integration methods based on polynomial interpolation
+- **Common Methods**:
+  - Trapezoid rule (linear interpolation)
+  - Simpson's 1/3 rule (quadratic interpolation)
+  - Simpson's 3/8 rule (cubic interpolation)
+- **Composite Rules**: Apply basic formulas over multiple subintervals for better accuracy
+
+### Mathematical Derivation
+
+Newton-Cotes formulas approximate $\int_a^b f(x) dx$ by:
+1. Dividing $[a, b]$ into $n$ subintervals
+2. Fitting a polynomial through points in each subinterval
+3. Integrating the polynomial analytically
+
+The general form is:
+$$\int_a^b f(x) dx \approx (b-a) \sum_{i=0}^n w_i f(x_i)$$
+
+Where $w_i$ are weights derived from the integral of the Lagrange basis polynomials.
+
+### Trapezoid Rule
+
+The trapezoid rule approximates the integral by connecting function values with straight lines:
+
+**Single Interval Formula:**
+$$\int_{a}^{b} f(x) \, dx \approx \frac{b-a}{2} [f(a) + f(b)]$$
+
+**Composite Formula (n subintervals):**
+$$\int_{a}^{b} f(x) \, dx \approx \frac{h}{2} [f(x_0) + 2f(x_1) + 2f(x_2) + \ldots + 2f(x_{n-1}) + f(x_n)]$$
+
+where $h = \frac{b-a}{n}$ and $x_i = a + ih$.
+
+**Error Term:**
+$$E_{trap} = -\frac{(b-a)^3}{12n^2} f''(\xi)$$
+
+for some $\xi \in [a,b]$, making it a second-order method $O(h^2)$.
+
+### Simpson's 1/3 Rule
+
+Simpson's 1/3 rule fits parabolas through three points:
+
+**Single Interval Formula (over two subintervals):**
+$$\int_{a}^{b} f(x) \, dx \approx \frac{b-a}{6} [f(a) + 4f\left(\frac{a+b}{2}\right) + f(b)]$$
+
+**Composite Formula (n must be even):**
+$$\int_{a}^{b} f(x) \, dx \approx \frac{h}{3} [f(x_0) + 4f(x_1) + 2f(x_2) + 4f(x_3) + \ldots + 2f(x_{n-2}) + 4f(x_{n-1}) + f(x_n)]$$
+
+**Error Term:**
+$$E_{simp} = -\frac{(b-a)^5}{180n^4} f^{(4)}(\xi)$$
+
+making it a fourth-order method $O(h^4)$.
+
+### Simpson's 3/8 Rule
+
+Simpson's 3/8 rule uses cubic polynomials through four points:
+
+**Single Interval Formula (over three subintervals):**
+$$\int_{a}^{b} f(x) \, dx \approx \frac{b-a}{8} [f(a) + 3f\left(\frac{2a+b}{3}\right) + 3f\left(\frac{a+2b}{3}\right) + f(b)]$$
+
+**Composite Formula (n must be multiple of 3):**
+$$\int_{a}^{b} f(x) \, dx \approx \frac{3h}{8} [f(x_0) + 3f(x_1) + 3f(x_2) + 2f(x_3) + 3f(x_4) + \ldots + f(x_n)]$$
+
+**Error Term:**
+$$E_{3/8} = -\frac{(b-a)^5}{80n^4} f^{(4)}(\xi)$$
+
+making it also a fourth-order method $O(h^4)$.
+
+### Basic Implementation Example
+
+{% raw %}
+```python
+import numpy as np
+from scipy import integrate
+
+def f(x):
+    return np.sin(x)**2
+
+# Define integration limits
+a, b = 0, np.pi
+n = 10  # Number of subintervals
+
+# Exact integral value for comparison
+exact = integrate.quad(f, a, b)[0]
+
+# Calculate using different methods
+x = np.linspace(a, b, n+1)
+y = f(x)
+
+# Using NumPy/SciPy built-in functions
+trapz_result = np.trapz(y, x)
+simpson_result = integrate.simpson(y, x)
+quad_result = integrate.quad(f, a, b)[0]
+
+print(f"Trapezoid Rule: {trapz_result}, Error: {abs(trapz_result-exact)}")
+print(f"Simpson's Rule: {simpson_result}, Error: {abs(simpson_result-exact)}")
+print(f"Adaptive Quadrature: {quad_result}, Error: {abs(quad_result-exact)}")
+```
+{% endraw %}
+
+### Error Analysis and Convergence
+
+The error of Newton-Cotes formulas depends on:
+1. The step size $h = \frac{b-a}{n}$
+2. The smoothness of the integrand (higher derivatives)
+3. The order of the method
+
+For smooth functions:
+- Trapezoid rule error scales as $O(h^2)$ or $O(n^{-2})$
+- Simpson's rules error scales as $O(h^4)$ or $O(n^{-4})$
+
+This rapid convergence for Simpson's rules makes them very efficient for smooth functions.
+
+### Resources
+
+- **Davishahl Numerical Methods Videos**
+  - [Trapezoid Rule](#) <!-- Video link to be inserted by you -->
+  - [Simpson's Rule](#) <!-- Video link to be inserted by you -->
+
+- **Berkeley Numerical Methods**
+  - [Trapezoidal Rule](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter19.01-Numerical-Integration-Trapezoidal-Rule.html)
+  - [Simpson's Rule](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter19.02-Numerical-Integration-Simpsons-Rule.html)
+
 ## 7. Gauss-Legendre Quadrature
 
 ### Key Concepts
