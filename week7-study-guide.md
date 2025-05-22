@@ -567,98 +567,166 @@ This rapid convergence for Simpson's rules makes them very efficient for smooth 
   - [Trapezoidal Rule](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter21.03-Trapezoid-Rule.html)
   - [Simpson's Rule](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter21.04-Simpsons-Rule.html)
 
-## 7. Gauss-Legendre Quadrature
+## 7. Gauss Quadrature
 
-### Key Concepts
+Gauss quadrature is an advanced numerical integration technique that achieves remarkable accuracy by strategically choosing both the evaluation points and their weights. Unlike other methods that use predetermined points (like endpoints or equally spaced intervals), Gauss quadrature optimizes both the locations where we evaluate the function and how much weight we give each evaluation.
 
-- **Gaussian Quadrature**: Integration method that optimally selects both evaluation points and weights
-- **Gauss-Legendre**: Uses roots of Legendre polynomials as evaluation points
-- **Advantages**:
-  - Higher accuracy with fewer function evaluations
-  - Exact for polynomials of degree up to 2n-1 using n points
-- **Limitations**:
-  - More complex to implement than Newton-Cotes
-  - Requires function evaluations at specific, non-uniform points
+### 7.1 Conceptual Foundation
 
-### Mathematical Theory
+The key insight behind Gauss quadrature is **error balancing**. Instead of simply connecting endpoints with a straight line (which creates systematic error), Gauss quadrature chooses evaluation points that balance positive and negative errors, leading to much higher accuracy.
 
-Gaussian quadrature is based on the idea that we can choose both the evaluation points $x_i$ and weights $w_i$ to maximize accuracy. For an $n$-point quadrature:
+**Visual Understanding:**
+- **Trapezoid method**: Uses endpoints, creating systematic over- or under-estimation
+- **2-point Gauss**: Chooses two interior points that balance positive and negative errors
+- **3-point Gauss**: Uses three strategically placed points for even higher accuracy
 
-{% raw %}
-$$\int_{-1}^{1} f(x) \, dx \approx \sum_{i=1}^{n} w_i f(x_i)$$
-{% endraw %}
+This error balancing allows an n-point Gauss quadrature formula to integrate polynomials of degree 2n-1 exactly, which is remarkable efficiency.
 
-For Gauss-Legendre quadrature:
-- The points $x_i$ are the roots of the $n$th-degree Legendre polynomial $P_n(x)$
-- The weights are given by {% raw %}$w_i = \frac{2}{(1-x_i^2)[P_n'(x_i)]^2}${% endraw %}
+### 7.2 Gauss-Legendre Formulas
 
-This scheme exactly integrates polynomials of degree $2n-1$ or less, making it extremely efficient.
+Gauss quadrature approximates integrals using the form:
 
-### Integration on General Intervals
+$$I \approx c_0 f(x_0) + c_1 f(x_1) + \cdots + c_{n-1} f(x_{n-1}) = \sum_{i=0}^{n-1} c_i f(x_i)$$
 
-For an integral over $[a,b]$ instead of $[-1,1]$, we use the transformation:
+where both the weights $c_i$ and the evaluation points $x_i$ are optimally determined.
 
-{% raw %}
-$$\int_{a}^{b} f(x) \, dx = \frac{b-a}{2} \int_{-1}^{1} f\left(\frac{b-a}{2}t + \frac{a+b}{2}\right) \, dt$$
-{% endraw %}
+**Standard Form**: Gauss-Legendre quadrature is derived for the interval [-1, 1]. For other intervals [a, b], we need coordinate transformation.
 
-Applying Gauss-Legendre quadrature:
+### 7.3 Gauss-Legendre Constants
 
-{% raw %}
-$$\int_{a}^{b} f(x) \, dx \approx \frac{b-a}{2} \sum_{i=1}^{n} w_i f\left(\frac{b-a}{2}x_i + \frac{a+b}{2}\right)$$
-{% endraw %}
+The following table provides the weights and evaluation points for common Gauss-Legendre formulas:
 
-### Implementation with SciPy
+| **Points** | **Weighting Factors, $c_i$** | **Function Arguments, $x_i$** |
+|------------|------------------------------|--------------------------------|
+| 2 | $c_0 = 1.0$ | $x_0 = -1/\sqrt{3} \approx -0.5774$ |
+|   | $c_1 = 1.0$ | $x_1 = 1/\sqrt{3} \approx 0.5774$ |
+| 3 | $c_0 = 5/9 \approx 0.5556$ | $x_0 = -\sqrt{3/5} \approx -0.7746$ |
+|   | $c_1 = 8/9 \approx 0.8889$ | $x_1 = 0.0$ |
+|   | $c_2 = 5/9 \approx 0.5556$ | $x_2 = \sqrt{3/5} \approx 0.7746$ |
+| 4 | $c_0 = (18-\sqrt{30})/36 \approx 0.3479$ | $x_0 = -\sqrt{525+70\sqrt{30}}/35 \approx -0.8612$ |
+|   | $c_1 = (18+\sqrt{30})/36 \approx 0.6521$ | $x_1 = -\sqrt{525-70\sqrt{30}}/35 \approx -0.3400$ |
+|   | $c_2 = (18+\sqrt{30})/36 \approx 0.6521$ | $x_2 = \sqrt{525-70\sqrt{30}}/35 \approx 0.3400$ |
+|   | $c_3 = (18-\sqrt{30})/36 \approx 0.3479$ | $x_3 = \sqrt{525+70\sqrt{30}}/35 \approx 0.8612$ |
 
-SciPy provides Gauss-Legendre quadrature through `scipy.special`:
+### 7.4 Coordinate Transformation
 
-{% raw %}
+Since Gauss-Legendre formulas are defined for [-1, 1], we must transform integrals over [a, b]:
+
+$$\int_a^b f(x) dx \Rightarrow \int_{-1}^1 f(x_d) dx_d$$
+
+**Linear Transformation**: If $x_d$ is the variable on [-1, 1] and $x$ is the variable on [a, b], then:
+
+$$x = a_1 + a_2 x_d$$
+
+**Finding the coefficients**:
+- When $x_d = -1$: $x = a$ → $a_1 + a_2(-1) = a$
+- When $x_d = 1$: $x = b$ → $a_1 + a_2(1) = b$
+
+Solving these equations:
+- $a_1 = \frac{a + b}{2}$
+- $a_2 = \frac{b - a}{2}$
+
+Therefore: $x = \frac{a + b}{2} + \frac{b - a}{2} x_d$
+
+And: $dx = \frac{b - a}{2} dx_d$
+
+### 7.5 Complete Example
+
+**Problem**: Use three-point Gauss-Legendre quadrature to estimate:
+$$I = \int_1^3 \left(2x + \frac{3}{x}\right)^2 dx$$
+
+**Step 1**: Transform to [-1, 1]
+- $a = 1$, $b = 3$
+- $a_1 = \frac{1 + 3}{2} = 2$
+- $a_2 = \frac{3 - 1}{2} = 1$
+- $x = 2 + x_d$, so $dx = dx_d$
+
+**Step 2**: Apply three-point Gauss-Legendre formula
+From the table:
+- $x_0 = -\sqrt{3/5} \approx -0.7746$, $c_0 = 5/9$
+- $x_1 = 0.0$, $c_1 = 8/9$  
+- $x_2 = \sqrt{3/5} \approx 0.7746$, $c_2 = 5/9$
+
+**Step 3**: Calculate function values
+Transform the x-coordinates:
+- At $x_d = -\sqrt{3/5}$: $x = 2 + (-\sqrt{3/5}) = 2 - \sqrt{3/5} \approx 1.2254$
+- At $x_d = 0$: $x = 2 + 0 = 2.0$
+- At $x_d = \sqrt{3/5}$: $x = 2 + \sqrt{3/5} \approx 2.7746$
+
+Evaluate $f(x) = \left(2x + \frac{3}{x}\right)^2$:
+- $f(1.2254) = (2(1.2254) + 3/1.2254)^2 = (2.451 + 2.449)^2 = 24.01$
+- $f(2.0) = (2(2.0) + 3/2.0)^2 = (4.0 + 1.5)^2 = 30.25$
+- $f(2.7746) = (2(2.7746) + 3/2.7746)^2 = (5.549 + 1.081)^2 = 43.96$
+
+**Step 4**: Apply the formula
+$$I = \frac{5}{9} f(1.2254) + \frac{8}{9} f(2.0) + \frac{5}{9} f(2.7746)$$
+$$I = \frac{5}{9}(24.01) + \frac{8}{9}(30.25) + \frac{5}{9}(43.96)$$
+$$I = 13.34 + 26.89 + 24.42 = 64.65$$
+
+**Verification**: The exact value is $I_{true} = 64.667$, so our estimate has excellent accuracy!
+
+### 7.6 Python Implementation
+
 ```python
 import numpy as np
-from scipy import special, integrate
 
+def gauss_legendre_2point(f, a, b):
+    """Two-point Gauss-Legendre quadrature"""
+    # Gauss-Legendre constants for 2 points
+    x_vals = np.array([-1/np.sqrt(3), 1/np.sqrt(3)])
+    weights = np.array([1.0, 1.0])
+    
+    # Transform to [a, b]
+    x_transformed = (a + b)/2 + (b - a)/2 * x_vals
+    
+    # Calculate integral
+    integral = (b - a)/2 * np.sum(weights * f(x_transformed))
+    return integral
+
+def gauss_legendre_3point(f, a, b):
+    """Three-point Gauss-Legendre quadrature"""
+    # Gauss-Legendre constants for 3 points
+    x_vals = np.array([-np.sqrt(3/5), 0.0, np.sqrt(3/5)])
+    weights = np.array([5/9, 8/9, 5/9])
+    
+    # Transform to [a, b]
+    x_transformed = (a + b)/2 + (b - a)/2 * x_vals
+    
+    # Calculate integral
+    integral = (b - a)/2 * np.sum(weights * f(x_transformed))
+    return integral
+
+# Example usage
 def f(x):
-    return np.exp(-x**2)
+    return (2*x + 3/x)**2
 
-# Integration limits
-a, b = 0, 1
+# Compare methods
+result_2pt = gauss_legendre_2point(f, 1, 3)
+result_3pt = gauss_legendre_3point(f, 1, 3)
 
-# Using SciPy's fixed_quad (Gauss-Legendre)
-result, error = integrate.fixed_quad(f, a, b, n=5)
-print(f"5-point Gauss-Legendre: {result}")
-
-# For comparison
-exact = integrate.quad(f, a, b)[0]
-print(f"Exact: {exact}, Error: {abs(result-exact)}")
+print(f"2-point Gauss-Legendre: {result_2pt:.4f}")
+print(f"3-point Gauss-Legendre: {result_3pt:.4f}")
+print(f"Exact value: 64.6667")
 ```
-{% endraw %}
 
-### Effectiveness of Gauss-Legendre Quadrature
+### 7.7 Key Advantages
 
-Gauss-Legendre quadrature is remarkably efficient for smooth functions:
+1. **High Accuracy**: n-point Gauss quadrature integrates polynomials of degree 2n-1 exactly
+2. **Efficiency**: Fewer function evaluations needed compared to other methods for similar accuracy
+3. **Optimal Point Placement**: Points are strategically chosen to minimize error
+4. **Error Balancing**: Positive and negative errors cancel out effectively
 
-1. An $n$-point formula exactly integrates polynomials up to degree $2n-1$
-2. Error for analytic functions decreases exponentially with $n$
-3. For highly oscillatory or singular functions, specialized Gaussian rules may be more appropriate (e.g., Gauss-Chebyshev, Gauss-Laguerre)
+### 7.8 When to Use Gauss Quadrature
 
-The theoretical error term for Gauss-Legendre quadrature is:
+**Best for**:
+- Smooth functions over finite intervals
+- When high accuracy is needed with minimal function evaluations
+- Integrands that are well-approximated by polynomials
 
-{% raw %}
-$$E_n = \frac{2^{2n+1}(n!)^4}{(2n+1)[(2n)!]^3} f^{(2n)}(\xi)$$
-{% endraw %}
-
-for some $\xi \in [a,b]$. This displays super-polynomial convergence for smooth functions.
-
-### Other Gaussian Quadrature Methods
-
-Different weight functions lead to different Gaussian quadrature methods:
-
-1. **Gauss-Chebyshev**: For integrals of the form {% raw %}$\int_{-1}^{1} \frac{f(x)}{\sqrt{1-x^2}} \, dx${% endraw %}
-2. **Gauss-Laguerre**: For integrals of the form {% raw %}$\int_{0}^{\infty} e^{-x}f(x) \, dx${% endraw %}
-3. **Gauss-Hermite**: For integrals of the form {% raw %}$\int_{-\infty}^{\infty} e^{-x^2}f(x) \, dx${% endraw %}
-4. **Gauss-Jacobi**: For integrals of the form {% raw %}$\int_{-1}^{1} (1-x)^{\alpha}(1+x)^{\beta}f(x) \, dx${% endraw %}
-
-Each is optimal for specific types of integrals and decay behaviors.
+**Consider alternatives for**:
+- Functions with discontinuities or sharp peaks
+- Infinite intervals (use other specialized methods)
+- When you need to evaluate the function at specific predetermined points
 
 ### Resources
 
