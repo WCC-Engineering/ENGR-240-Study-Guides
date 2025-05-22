@@ -103,6 +103,9 @@ Differential equations are ubiquitous in engineering:
 
 ### Resources
 
+- **Davishahl Numerical Methods**
+  - [Introduction to Differential Equations](https://youtu.be/JhSdy6B-bTM?si=_zZg69ZJ_IwUluhG)
+
 - **Berkeley Numerical Methods**
   - [Ordinary Differential Equations](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter22.00-Ordinary-Differential-Equations.html)
 
@@ -142,9 +145,10 @@ where $\phi$ is the increment function that depends on the specific method.
 ### Resources
 
 - **Davishahl Numerical Methods Videos**
-  - [Intro to ODEs](INSERT VIDEO LINK HERE)
-  - [Euler's Method](INSERT VIDEO LINK HERE)
-  - [Improved Euler's Method](INSERT VIDEO LINK HERE)
+  - [Euler's Method](https://youtu.be/07WL970w5CY?si=_hgOcTsuw0LOHgfR)
+
+- **Berkeley Numerical Methods**
+  - [The Eurler Method](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter22.03-The-Euler-Method.html)
 
 ## 3. Euler Method
 
@@ -402,7 +406,12 @@ For stiff equations, explicit methods (like Euler, Midpoint, and Heun) require e
 ### Resources
 
 - **Davishahl Numerical Methods Videos**
-  - [Numerical Stability](INSERT VIDEO LINK HERE)
+  - [Stability of Numerical Solutions](https://youtu.be/WUiGiDKNKDQ?si=g48FlIfhknU-_8mG)
+  - [Midpoint Method](https://youtu.be/bkNgjgXdjlw?si=pEBtcLIF6ifgP0LY)
+  - [Heun's Method](https://youtu.be/6wGn3Z7T7fA?si=dZkQfDw4dVbKXoHm)
+
+- **Berkeley Numerical Methods**
+  - [Numerical Error and Instability](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter22.04-Numerical-Error-and-Instability.html)
 
 ## 7. Systems of Ordinary Differential Equations
 
@@ -637,8 +646,11 @@ plt.show()
 
 ### Resources
 
+- **Davishahl Numerical Methods**
+  - [Systems of ODEs](https://youtu.be/aaCBLkUJLOM?si=GEf3JJV0ChRYrJek)
+
 - **Berkeley Numerical Methods**
-  - [Systems of ODEs](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter22.05-Systems-of-ODEs.html)
+  - [Reduction of Order](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter22.02-Reduction-of-Order.html)
 
 ## Tips for Week 8 Assignments
 
