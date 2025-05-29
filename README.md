@@ -12,6 +12,7 @@ This repository contains weekly study guides for ENGR 240: Engineering Computati
 - [Week 6: Interpolation and Splines](week6-study-guide.md)
 - [Week 7: Numerical Differentiation and Integration](week7-study-guide.md)
 - [Week 8: Ordinary Differential Equations](week8-study-guide.md)
+- [Week 9: Advanced ODE Methods and SciPy Solvers](week9-study-guide.md)
 
 ## Using These Study Guides
 
