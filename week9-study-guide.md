@@ -66,7 +66,7 @@ The global truncation error for RK4 is O(h⁴), meaning:
 ### Resources
 
 - **Davishahl Numerical Methods Videos**
-  - [Classical RK4 Method](link-to-be-added)
+  - [Runge Kutta Methods](https://youtu.be/UCR-YbDMYXA?si=eDIaLloDUKOekFv0)
 
 ## 2. Multi-Step Methods: Adams-Bashforth-Moulton
 
@@ -137,7 +137,7 @@ y_next = y_n + h/24 * (9*f_pred + 19*f_n - 5*f_n_1 + f_n_2)
 ### Resources
 
 - **Davishahl Numerical Methods Videos**
-  - [Adams-Bashforth-Moulton Methods](link-to-be-added)
+  - [Multi-Step Methods](https://youtu.be/wX9L3G9TFBA?si=M65jxAPSr2kJOqW2)
 
 ## 3. SciPy IVP Solvers
 
@@ -203,8 +203,11 @@ sol = solve_ivp(system_ode, (0, 20), [2, 0], method='RK45')
 
 ### Resources
 
-- **Davishahl Numerical Methods Videos**
-  - [SciPy ODE Solvers](link-to-be-added)
+- **Berkeley Numerical Methods**
+  - [Python ODE SOlvers](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter22.06-Python-ODE-Solvers.html)
+
+- **SciPy Documentation**
+  - [SciPy.integrate.solve_ivp](https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html)
 
 ## 4. Adaptive Time Stepping
 
@@ -268,11 +271,6 @@ sol = solve_ivp(ode_func, t_span, y0,
 **Relative Tolerance (rtol)**: Controls error as a fraction of solution magnitude
 
 Combined error criterion: $E_{allowed} = atol + rtol \times |y|$
-
-### Resources
-
-- **Davishahl Numerical Methods Videos**
-  - [Adaptive Time Stepping](link-to-be-added)
 
 ## 5. Stiffness and Stability
 
@@ -346,8 +344,7 @@ The advantage is that implicit methods can have unbounded stability regions, mak
 ### Resources
 
 - **Davishahl Numerical Methods Videos**
-  - [Stiffness and Stability](link-to-be-added)
-  - [Implicit Methods Overview](link-to-be-added)
+  - [Stiff ODEs and Implicit Methods](https://youtu.be/D67GDY6-WyY?si=20HNINBmCYqW469J)
 
 ## Tips for Week 9 Assignments
 
