@@ -15,6 +15,7 @@ Welcome to the ENGR 240 Study Guides! These resources are designed to help you l
 - [Week 7: Numerical Differentiation and Integration](week7-study-guide.md)
 - [Week 8: Ordinary Differential Equations](week8-study-guide.md)
 - [Week 9: Advanced ODE Methods and SciPy Solvers](week9-study-guide.md)
+- [Week 10: Boundary Value Problems](week10-study-guide.md)
 
 ## How to Use These Guides
 
