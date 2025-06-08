@@ -47,13 +47,14 @@ with boundary conditions at both ends.
 - **Convert BVP to IVPs**: "Shoot" from one boundary toward the other
 - **Root-Finding**: Find initial condition that satisfies far boundary
 - **Linear vs Nonlinear**: Different strategies for each case
+- **Recommended Solver**: Use `solve_ivp` with `method='RK45'` for most cases
 
 ### Basic Algorithm
 
 For BVP: $y'' = f(x,y,y')$, $y(a) = \alpha$, $y(b) = \beta$
 
 1. **Guess** initial slope: $s = y'(a)$
-2. **Solve IVP** from $a$ to $b$
+2. **Solve IVP** from $a$ to $b$ using RK45
 3. **Check** if $y(b) = \beta$  
 4. **Adjust** and repeat
 
@@ -77,11 +78,52 @@ Solve $G(s) = 0$ using:
 
 {% raw %}
 ```python
-def boundary_residual(s):
-    sol = solve_ivp(ode_system, [a, b], [alpha, s])
-    return sol.y[0, -1] - beta
-
-s_correct = fsolve(boundary_residual, s_guess)[0]
+def shooting_method_nonlinear(ode_func, a, b, alpha, beta, s_guess=0):
+    """
+    Solve nonlinear BVP using shooting method with root finding.
+    
+    Parameters:
+    ode_func: function that returns [y', y''] given (x, y, y')
+    a, b: domain boundaries
+    alpha, beta: boundary values y(a)=alpha, y(b)=beta
+    s_guess: initial guess for the slope y'(a)
+    """
+    
+    def ode_system(x, y):
+        """
+        Convert 2nd order ODE to system of 1st order ODEs
+        y[0] = y (function value)
+        y[1] = y' (derivative value)
+        """
+        y1, y2 = y  # Extract function and derivative values
+        derivatives = ode_func(x, y1, y2)  # Get [y', y''] from user function
+        return derivatives
+    
+    def boundary_residual(s):
+        """
+        Function whose root gives the correct initial slope.
+        
+        Parameters:
+        s: trial value for initial slope y'(a)
+        
+        Returns:
+        Residual: y(b) - beta (should be zero for correct slope)
+        """
+        # Solve IVP with current slope guess
+        sol = solve_ivp(ode_system, [a, b], [alpha, s], 
+                       method='RK45', rtol=1e-8)
+        
+        # Return difference between computed y(b) and target beta
+        return sol.y[0, -1] - beta  # y(b) - beta
+    
+    # Find the root (correct slope) using scipy's robust solver
+    s_correct = fsolve(boundary_residual, s_guess)[0]
+    
+    # Solve one final time with the correct slope for full solution
+    sol_final = solve_ivp(ode_system, [a, b], [alpha, s_correct], 
+                         method='RK45', dense_output=True, rtol=1e-8)
+    
+    return sol_final, s_correct
 ```
 {% endraw %}
 
@@ -95,7 +137,7 @@ s_correct = fsolve(boundary_residual, s_guess)[0]
 ### Advantages/Disadvantages
 
 **Advantages:**
-- Uses robust IVP solvers
+- Uses robust IVP solvers (RK45)
 - High accuracy possible
 - Works for nonlinear problems
 
@@ -139,6 +181,57 @@ $$\frac{y_{i+1} - 2y_i + y_{i-1}}{h^2} + p_i\frac{y_{i+1} - y_{i-1}}{2h} + q_i y
 
 Rearranging:
 $$\left(1 + \frac{hp_i}{2}\right)y_{i+1} + \left(-2 + h^2q_i\right)y_i + \left(1 - \frac{hp_i}{2}\right)y_{i-1} = h^2r_i$$
+
+### Special Case: No First Derivative Term
+
+For the common case $y'' + q(x)y = r(x)$ (no $y'$ term), the finite difference equation simplifies to:
+
+$$\frac{y_{i+1} - 2y_i + y_{i-1}}{h^2} + q_i y_i = r_i$$
+
+Rearranging: $y_{i-1} + (-2 + h^2 q_i)y_i + y_{i+1} = h^2 r_i$
+
+{% raw %}
+```python
+def setup_tridiagonal_matrix_simple(q_func, r_func, a, b, alpha, beta, n):
+    """
+    Set up tridiagonal matrix for y'' + q(x)*y = r(x)
+    with Dirichlet BCs: y(a) = alpha, y(b) = beta
+    """
+    # Create mesh
+    h = (b - a) / (n + 1)
+    x_interior = np.linspace(a + h, b - h, n)  # Interior points only
+    
+    # Evaluate functions at interior points
+    q_vals = np.array([q_func(xi) for xi in x_interior])
+    r_vals = np.array([r_func(xi) for xi in x_interior])
+    
+    # Set up tridiagonal matrix coefficients
+    # Lower diagonal: all ones (coefficient of y_{i-1})
+    lower_diag = np.ones(n-1)
+    
+    # Main diagonal: -2 + h^2 * q(x_i)
+    main_diag = -2 + h**2 * q_vals
+    
+    # Upper diagonal: all ones (coefficient of y_{i+1})
+    upper_diag = np.ones(n-1)
+    
+    # Create sparse tridiagonal matrix
+    A = diags([lower_diag, main_diag, upper_diag], [-1, 0, 1], 
+              shape=(n, n), format='csr')
+    
+    # Set up right-hand side vector
+    b_vec = h**2 * r_vals
+    
+    # Apply Dirichlet boundary conditions
+    # Modify first equation: subtract alpha from RHS
+    b_vec[0] -= alpha
+    
+    # Modify last equation: subtract beta from RHS  
+    b_vec[-1] -= beta
+    
+    return A, b_vec, x_interior
+```
+{% endraw %}
 
 ### Matrix System
 
@@ -231,6 +324,7 @@ Requires understanding of:
    - Use physical intuition for estimates
    - Try multiple starting values for nonlinear problems
    - Check convergence of root-finding algorithm
+   - Use `method='RK45'` in `solve_ivp` for reliability
 
 2. **Finite Difference Method**:
    - Start with coarse mesh, refine gradually
