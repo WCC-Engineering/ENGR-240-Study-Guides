@@ -37,8 +37,8 @@ with boundary conditions at both ends.
 
 ### Resources
 
-- **Davishahl Numerical Methods**
-  - [Introduction to Boundary Value Problems](placeholder-for-video-link)
+- **Berkeley Numerical Methods**
+  - [ODE Boundary Value Problem Statement](https://pythonnumericalmethods.studentorg.berkeley.edu/notebooks/chapter23.01-ODE-Boundary-Value-Problem-Statement.html)
 
 ## 2. The Shooting Method
 
@@ -149,8 +149,8 @@ def shooting_method_nonlinear(ode_func, a, b, alpha, beta, s_guess=0):
 ### Resources
 
 - **Davishahl Numerical Methods**
-  - [Shooting Method for Linear BVPs](placeholder-for-video-link)
-  - [Shooting Method for Nonlinear BVPs](placeholder-for-video-link)
+  - [Shooting Method for Linear BVPs](https://youtu.be/GR7dNF5B7Dc?si=_qPHtyWPSYnIYnOu)
+  - [Shooting Method for Nonlinear BVPs](https://youtu.be/P7qqicTXPRQ?si=09Pzlx6sQZZ4UuQV)
 
 ## 3. Finite Difference Method (Linear BVPs)
 
@@ -282,7 +282,7 @@ Modify first/last equations:
 ### Resources
 
 - **Davishahl Numerical Methods**
-  - [Finite Difference Method for BVPs](placeholder-for-video-link)
+  - [Finite Difference Method for BVPs](https://youtu.be/-RK5r65OF-Y?si=vA2zRm11RpdLLAkk)
 
 ## 4. Finite Difference Method for Nonlinear BVPs (Conceptual)
 
